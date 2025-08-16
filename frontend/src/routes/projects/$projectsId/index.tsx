@@ -16,7 +16,7 @@ export const Route = createFileRoute('/projects/$projectsId/')({
 })
 
 function RouteComponent() {
-  const project = useLoaderData()
+  const project = useLoaderData({ from: '/projects/$projectsId/' })
 
   if (!project) {
     return (
@@ -37,19 +37,19 @@ function RouteComponent() {
   } = project
 
   return (
-    <div className="max-w-5xl mx-auto px-4">
+    <div className="max-w-5xl mx-auto">
       {img && (
-        <div className="w-full h-[25vh] sm:h-[40vh] relative overflow-hidden rounded-2xl">
+        <div className="w-full h-[25vh] sm:h-[40vh] relative overflow-hidden">
           <img
             src={img}
             alt={title}
             className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
           />
-          <div className="absolute inset-0 bg-black/20 rounded-2xl" />
+          <div className="absolute inset-0 bg-black/20 " />
         </div>
       )}
 
-      <section className="py-16">
+      <section className="py-16 lg:px-0 px-6">
         <Link
           to="/projects"
           className="flex justify-start items-center gap-2 text-gray-700 hover:text-black mb-6"
