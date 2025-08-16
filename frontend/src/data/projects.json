@@ -1,0 +1,94 @@
+[
+  {
+    "id": "1",
+    "title": "You and Your Home",
+    "description": "A school project for an e-commerce site, with all the bells and whistles",
+    "img": "/covers/projects/yourhome2.jpg",
+    "repoLink": "https://github.com/Yehonatal/webII-project?tab=readme-ov-file",
+    "liveLink": "https://github.com/Yehonatal/webII-project?tab=readme-ov-file",
+    "category": "Web Development",
+    "date": "2023-06-15",
+    "featured": true,
+    "techUsed": ["React", "Tailwindcss", "php", "MySql", "JavaScript", "Vite"]
+  },
+  {
+    "id": "2",
+    "title": "Untitled blogs",
+    "description": "A simple blog site for all your untitled blogs, they don't need to be perfect nor need titles :) just write and post and see the world learn from your life.",
+    "img": "/covers/projects/sillyblogs.jpg",
+    "repoLink": "https://sillyblogs.vercel.app/",
+    "liveLink": "https://sillyblogs.vercel.app/",
+    "category": "Blog",
+    "date": "2023-05-10",
+    "featured": false,
+    "techUsed": ["React", "Tailwindcss", "MongoDb"]
+  },
+  {
+    "id": "3",
+    "title": "Dictionary",
+    "description": "This is a simple dictionary website that uses the Free Dictionary API to provide users with quick and easy access to word definitions, synonyms, and related terms.",
+    "img": "/covers/projects/dictdark.png",
+    "repoLink": "https://dictionary-bad.netlify.app/",
+    "liveLink": "https://dictionary-bad.netlify.app/",
+    "category": "Web Development",
+    "date": "2023-04-22",
+    "featured": false,
+    "techUsed": ["HTML", "CSS", "JavaScript"]
+  },
+  {
+    "id": "4",
+    "title": "Manages School v2",
+    "description": "This is a simple Student Management System project with a focus on managing students, courses, and grades.",
+    "img": "/covers/projects/manageschool.jpeg",
+    "repoLink": "https://github.com/Yehonatal/ManageSchool_v2",
+    "liveLink": "https://github.com/Yehonatal/ManageSchool_v2",
+    "category": "Desktop App",
+    "date": "2023-03-18",
+    "featured": false,
+    "techUsed": ["Java", "JavaFx", "MySql"]
+  },
+  {
+    "id": "5",
+    "title": "Password Generator",
+    "description": "This is a web app / chrome extension that generates strong and secure passwords with varying levels of complexity.",
+    "img": "/covers/projects/pswgen.png",
+    "repoLink": "https://passwordgenerator-project.netlify.app/",
+    "liveLink": "https://passwordgenerator-project.netlify.app/",
+    "category": "Web Development",
+    "date": "2023-02-28",
+    "featured": false,
+    "techUsed": ["HTML", "CSS", "JavaScript"]
+  },
+  {
+    "id": "6",
+    "title": "Your Home",
+    "description": "This is the front-end platform where the backend will be used to connect with database along side the content management system.",
+    "img": "/covers/projects/yourhome.png",
+    "repoLink": "https://yourhome-schoolproject.netlify.app/",
+    "liveLink": "https://yourhome-schoolproject.netlify.app/",
+    "category": "Full Stack",
+    "date": "2023-01-12",
+    "featured": true,
+    "techUsed": [
+      "Vite",
+      "JavaScript",
+      "React",
+      "Redux",
+      "Node.Js",
+      "MongoDb",
+      "Express.js"
+    ]
+  },
+  {
+    "id": "7",
+    "title": "Other me",
+    "description": "Using the GitHub users API to pull profile data and display it.",
+    "img": "/covers/projects/othermedark.png",
+    "repoLink": "https://otherme.netlify.app/",
+    "liveLink": "https://otherme.netlify.app/",
+    "category": "Web Development",
+    "date": "2023-05-05",
+    "featured": false,
+    "techUsed": ["HTML", "CSS", "JavaScript"]
+  }
+]
