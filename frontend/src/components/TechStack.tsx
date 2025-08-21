@@ -31,7 +31,7 @@ export const categories = [
   {
     name: 'Databases & Hosting',
     icon: <Database className="w-4 h-4 mr-1 inline" />,
-    tech: ['MongoDB', 'Supabase', 'Neon', 'Turso', 'Cloudinary'],
+    tech: ['MongoDB', 'Supabase', 'Neon', 'Turso' ],
   },
   {
     name: 'Dev Tools & Practices',
@@ -41,7 +41,7 @@ export const categories = [
   {
     name: 'Other',
     icon: <Box className="w-4 h-4 mr-1 inline" />,
-    tech: ['Vite', 'Strapi', 'Framer Motion', 'AOS', 'Sonner'],
+    tech: ['Vite', 'Strapi', 'Cloudinary', 'Framer Motion', 'AOS', 'Sonner'],
   },
 ]
 
