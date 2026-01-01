@@ -95,7 +95,7 @@ const ProjectList = ({ projects }: { projects: Project[] }) => {
             <div className="space-y-8 md:space-y-12">
               <div className="space-y-6 md:space-y-8">
                 <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[var(--color-primary)]">
-                  Featured Case Study
+                  Featured Project (My Favorite)
                 </span>
                 <h3 className="text-4xl md:text-7xl font-black tracking-tighter leading-[0.9]">
                   {featuredProject.title}
