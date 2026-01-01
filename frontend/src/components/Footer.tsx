@@ -27,13 +27,23 @@ const FooterSection = () => {
               yonatanafewerk@gmail.com
             </a>
             <div className="flex flex-wrap gap-6 md:gap-10">
-              {['LinkedIn', 'GitHub', 'Twitter', 'Medium'].map((social) => (
+              {[
+                {
+                  name: 'LinkedIn',
+                  url: 'https://www.linkedin.com/in/yonatan-afewerk/',
+                },
+                { name: 'GitHub', url: 'https://github.com/Yehonatal' },
+                { name: 'Telegram', url: 'https://t.me/Jehonatal' },
+                { name: 'Medium', url: 'https://medium.com/@yonatanafewerk' },
+              ].map((social) => (
                 <a
-                  key={social}
-                  href="#"
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors"
                 >
-                  {social}
+                  {social.name}
                 </a>
               ))}
             </div>
