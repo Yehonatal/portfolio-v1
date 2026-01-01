@@ -248,7 +248,7 @@
   },
   {
     "id": "6",
-    "title": "Your Home (Full Stack)",
+    "title": "Your Home",
     "description": "A full-stack web platform developed to explore modern frontend state management and backend integration. The project uses React and Redux on the frontend with a Node.js and Express backend, connected to MongoDB. It demonstrates API-driven architecture, global state handling, and separation of concerns between client and server layers.",
     "images": ["/covers/projects/yourhome.png"],
     "repoLink": "https://yourhome-schoolproject.netlify.app/",
