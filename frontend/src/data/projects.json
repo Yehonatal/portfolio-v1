@@ -114,7 +114,7 @@
     "liveLink": "https://project-expenses-pied.vercel.app/",
     "category": "Productivity Tools",
     "date": "2025-01-01",
-    "featured": false,
+    "featured": true,
     "techUsed": [
       "React",
       "TypeScript",
@@ -157,7 +157,7 @@
     "liveLink": "https://project-issues-orpin.vercel.app/",
     "category": "Developer Tools",
     "date": "2025-01-01",
-    "featured": true,
+    "featured": false,
     "techUsed": [
       "Next.js",
       "Supabase",
