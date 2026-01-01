@@ -63,7 +63,25 @@ const Hero = ({
             </div>
           </motion.div>
 
-          <div className="flex justify-center lg:justify-end">
+          <div className="flex flex-col items-center lg:items-end gap-12">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
+              className="relative w-64 h-64 md:w-72 md:h-72 group"
+            >
+              <div className="absolute inset-0 bg-[var(--color-primary)] rounded-[2rem] rotate-6 opacity-20 blur-2xl group-hover:blur-3xl transition-all duration-500" />
+              <div className="absolute inset-0 bg-[var(--color-secondary)] rounded-[2rem] -rotate-3 border border-[var(--color-border)]" />
+              <div className="relative w-full h-full rounded-[2rem] overflow-hidden border-2 border-[var(--color-background)] shadow-2xl rotate-3 group-hover:rotate-0 transition-all duration-500">
+                <img
+                  src="/me.jpg"
+                  alt="Yonatan Afewerk"
+                  className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-primary)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              </div>
+            </motion.div>
+
             <EducationSection />
           </div>
         </div>

@@ -66,7 +66,13 @@ const Navbar = () => {
             className="text-[var(--color-foreground)] hover:text-[var(--color-primary)] transition-all duration-500 hover:scale-110 relative z-[110]"
             onClick={() => setIsOpen(false)}
           >
-            <LucideFolderHeart className="w-7 h-7" />
+            <div className="relative w-10 h-10 overflow-hidden rounded-full border-2 border-[var(--color-primary)] shadow-sm group">
+              <img
+                src="/me.jpg"
+                alt="Yonatan"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+            </div>
           </Link>
 
           <div className="hidden md:flex items-center gap-12">
