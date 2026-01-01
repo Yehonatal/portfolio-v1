@@ -102,7 +102,7 @@ const TechCard = ({ cat, i }: { cat: (typeof categories)[0]; i: number }) => {
         ease: 'easeOut',
       }}
       onMouseMove={onMouseMove}
-      className="group relative p-6 rounded-2xl bg-[var(--color-secondary)]/5 border border-[var(--color-border)] hover:border-[var(--color-primary)]/40 transition-colors duration-500 overflow-hidden flex flex-col gap-6"
+      className="group relative p-6 rounded-2xl bg-[var(--color-secondary)]/5 border border-[var(--color-border)]/100 hover:border-[var(--color-primary)]/40 transition-colors duration-500 overflow-hidden flex flex-col gap-6"
     >
       <motion.div
         className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500"
@@ -157,9 +157,7 @@ const TechStack = () => {
             </div>
             <h2 className="text-4xl md:text-5xl font-black tracking-tighter">
               Technical{' '}
-              <span className="font-serif italic font-light text-[var(--color-muted-foreground)]">
-                Arsenal
-              </span>
+              <span className="font-serif italic font-light">Arsenal</span>
             </h2>
           </div>
           <div className="max-w-md">
