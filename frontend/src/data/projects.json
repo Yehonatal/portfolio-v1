@@ -170,7 +170,7 @@
   {
     "id": "15",
     "title": "GymBro",
-    "description": "A personal workout tracking application built to log exercises, sets, reps, and weights while providing long-term progress insights. Designed primarily for private use, GymBro shares architectural similarities with CourseHub but uses MongoDB as its primary database. The project focuses on data modeling, performance tracking, and clean UI for daily personal use.",
+    "description": "A personal workout tracking application built to log exercises, sets, reps, and weights while providing long-term progress insights. Designed primarily for private use, uses MongoDB as its primary database. The project focuses on data modeling, performance tracking, and clean UI for daily personal use.",
     "images": [
       "/covers/projects/gymbro_preview/weeklylog.png",
       "/covers/projects/gymbro_preview/createplan.png",
