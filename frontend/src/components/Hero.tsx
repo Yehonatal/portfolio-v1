@@ -16,8 +16,8 @@ const Hero = ({
 }: HeroProp) => {
   return (
     <>
-      <section className="pt-32 pb-20 md:pt-64 md:pb-40 max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-12 md:gap-24 items-center mb-20 md:mb-60">
+      <section className="pt-32 pb-2 md:pt-64 md:pb-10 max-w-7xl mx-auto px-6">
+        <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-12 md:gap-24 items-center mb-20 md:mb-20">
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
