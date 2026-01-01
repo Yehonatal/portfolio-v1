@@ -1,4 +1,5 @@
 import ProjectList from '@/components/ProjectList'
+import OtherProjects from '@/components/OtherProjects'
 import type { Project } from '@/types/types'
 import projectsData from '@/data/projects.json'
 import { createFileRoute } from '@tanstack/react-router'
@@ -14,7 +15,7 @@ export function meta() {
 export function loader(): { projects: Project[] } {
   const projects: Project[] = projectsData.map((item) => ({
     id: item.id,
-    img: item.img,
+    images: item.images,
     title: item.title,
     description: item.description,
     techUsed: item.techUsed,
@@ -23,7 +24,6 @@ export function loader(): { projects: Project[] } {
     category: item.category,
     featured: item.featured,
     date: item.date || '',
-    url: item.liveLink,
   }))
   return { projects }
 }
@@ -32,15 +32,11 @@ function RouteComponent() {
   const { projects } = loader()
 
   return (
-    <section className="max-w-5xl mx-auto lg:px-0 px-6 md:px-4 bg-[var(--color-background)]">
-      <div className="mt-6">
-        <p className="text-gray-700 text-base leading-relaxed mb-2">
-          These are some of the projects I have worked on.
-        </p>
-      </div>
-
+    <div className="bg-[var(--color-background)]">
       <ProjectList projects={projects} />
-    </section>
+
+      <OtherProjects />
+    </div>
   )
 }
 

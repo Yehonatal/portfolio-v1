@@ -20,50 +20,52 @@ const RenderPagination = ({
   }
 
   return (
-    <div className="flex justify-center items-center gap-2 flex-wrap">
+    <div className="flex justify-center items-center gap-4 flex-wrap pt-20">
       <button
         onClick={handlePrev}
         disabled={currentPage === 1}
-        className={`p-2 rounded-lg border-2 transition-all duration-200 
+        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-all duration-500 
           ${
             currentPage === 1
-              ? 'bg-[var(--color-card)] border-[var(--color-accent)] text-gray-400 cursor-not-allowed'
-              : 'bg-[var(--color-card)] border-[var(--color-accent)] text-[var(--color-foreground)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:scale-[0.98] hover:shadow-md'
+              ? 'border-[var(--color-border)] text-[var(--color-muted-foreground)] opacity-50 cursor-not-allowed'
+              : 'border-[var(--color-border)] text-[var(--color-foreground)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:scale-110'
           }`}
       >
-        <ChevronLeft size={16} />
+        <ChevronLeft size={18} />
       </button>
 
-      {Array.from({ length: totalPages }, (_, idx) => {
-        const page = idx + 1
-        const isActive = currentPage === page
-        return (
-          <button
-            key={page}
-            onClick={() => setCurrentPage(page)}
-            className={`px-3 py-1.5 text-sm rounded-lg cursor-pointer border-2 transition-all duration-200
-              ${
-                isActive
-                  ? 'bg-[var(--color-primary)] border-[var(--color-primary)] text-[var(--color-primary-foreground)] font-extrabold shadow-md'
-                  : 'bg-[var(--color-card)] border-[var(--color-accent)] text-[var(--color-foreground)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:scale-[0.98] hover:shadow-md'
-              }`}
-          >
-            {page}
-          </button>
-        )
-      })}
+      <div className="flex items-center gap-2">
+        {Array.from({ length: totalPages }, (_, idx) => {
+          const page = idx + 1
+          const isActive = currentPage === page
+          return (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`w-10 h-10 rounded-full text-[10px] font-black transition-all duration-500 border
+                ${
+                  isActive
+                    ? 'bg-[var(--color-foreground)] border-[var(--color-foreground)] text-[var(--color-background)] shadow-lg'
+                    : 'bg-transparent border-transparent text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] hover:border-[var(--color-border)]'
+                }`}
+            >
+              {page}
+            </button>
+          )
+        })}
+      </div>
 
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className={`p-2 rounded-lg border-2 transition-all duration-200 cursor-pointer
+        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-all duration-500 
           ${
             currentPage === totalPages
-              ? 'bg-[var(--color-card)] border-[var(--color-accent)] text-gray-400 cursor-not-allowed'
-              : 'bg-[var(--color-card)] border-[var(--color-accent)] text-[var(--color-foreground)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:scale-[0.98] hover:shadow-md'
+              ? 'border-[var(--color-border)] text-[var(--color-muted-foreground)] opacity-50 cursor-not-allowed'
+              : 'border-[var(--color-border)] text-[var(--color-foreground)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:scale-110'
           }`}
       >
-        <ChevronRight size={16} />
+        <ChevronRight size={18} />
       </button>
     </div>
   )

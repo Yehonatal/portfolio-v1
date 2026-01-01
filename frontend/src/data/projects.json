@@ -1,92 +1,271 @@
 [
   {
+    "id": "8",
+    "title": "CourseHub",
+    "description": "CourseHub is a large-scale, open-source adaptive learning platform designed specifically for Ethiopian universities. It centralizes curriculum-aligned academic resources, supports community-driven moderation, and introduces optional AI-powered study aids through the Google Gemini API. The system is architected with strict data isolation, role-based access control, and optimized row-level security policies. Built with Next.js, Supabase, PostgreSQL, and MongoDB, CourseHub emphasizes scalability, performance, and real-world academic workflows, making it suitable for institutional adoption.",
+    "images": [
+      "/covers/projects/coursehub_preview/ai.png",
+      "/covers/projects/coursehub_preview/homepage.png",
+      "/covers/projects/coursehub_preview/resourcespage.png",
+      "/covers/projects/coursehub_preview/singleresourceview.png",
+      "/covers/projects/coursehub_preview/userpage.png",
+      "/covers/projects/coursehub_preview/customedesign.png",
+      "/covers/projects/coursehub_preview/universitypage.png"
+    ],
+    "repoLink": "https://github.com/Yehonatal/coursehub",
+    "liveLink": "https://coursehub-brown.vercel.app/",
+    "category": "Education Platforms",
+    "date": "2024-01-01",
+    "featured": true,
+    "techUsed": [
+      "Next.js",
+      "TailwindCSS",
+      "Supabase",
+      "PostgreSQL",
+      "MongoDB",
+      "Drizzle ORM",
+      "Gemini API"
+    ]
+  },
+  {
+    "id": "9",
+    "title": "RAG Chatbot",
+    "description": "A production-ready Retrieval-Augmented Generation (RAG) chatbot featuring dual parallel implementations in Python and JavaScript. The project enables direct performance comparison between a Haystack-based Python pipeline and a Node.js-native RAG system using client-side embeddings. It includes automatic failover, benchmarking utilities, real-time chat via WebSockets, and multi-LLM support. Designed with reliability and performance in mind, the JavaScript implementation demonstrated over 50% faster response times in benchmark testing.",
+    "images": [
+      "/covers/projects/chatbot_preview/chat.png",
+      "/covers/projects/chatbot_preview/bot.png"
+    ],
+    "repoLink": "https://github.com/Yehonatal/Chatbot",
+    "liveLink": "",
+    "category": "AI & Data Systems",
+    "date": "2025-09-19",
+    "featured": true,
+    "techUsed": [
+      "Node.js",
+      "Python",
+      "Haystack",
+      "Qdrant",
+      "React",
+      "Redux Toolkit",
+      "Docker"
+    ]
+  },
+  {
+    "id": "10",
+    "title": "Project Addis",
+    "description": "A full-stack song management system developed as an internship test project for Addis Software PLC. The application supports complete CRUD operations, pagination, search with debouncing, and modern UI patterns. Built using a manually configured Webpack setup and Redux Toolkit with Redux-Saga, this project reflects rapid learning, practical problem-solving, and real-world engineering trade-offs under time constraints.",
+    "images": [
+      "/covers/projects/addismusic_preview/homepage-dark.png",
+      "/covers/projects/addismusic_preview/homepage-light.png"
+    ],
+    "repoLink": "https://github.com/Yehonatal/project-addis",
+    "liveLink": "https://project-addis.vercel.app/",
+    "category": "Full-Stack Applications",
+    "date": "2024-01-01",
+    "featured": false,
+    "techUsed": [
+      "React",
+      "Redux Toolkit",
+      "Redux-Saga",
+      "Webpack",
+      "Node.js",
+      "Express"
+    ]
+  },
+  {
+    "id": "11",
+    "title": "Project Crypto",
+    "description": "A CoinGecko-inspired cryptocurrency tracking dashboard that provides real-time market data, interactive charts, and educational content. The system uses a secure Express.js backend as an API proxy with caching, rate limiting, and validation to ensure performance and reliability. The frontend is built with modern React and TypeScript, focusing on responsive design, data visualization, and clean UI architecture.",
+    "images": [
+      "/covers/projects/crypto_preview/coindetail.png",
+      "/covers/projects/crypto_preview/edupage.png",
+      "/covers/projects/crypto_preview/homepage.png"
+    ],
+    "repoLink": "https://github.com/Yehonatal/project-crypto",
+    "liveLink": "https://project-crypto-alpha.vercel.app/",
+    "category": "Web Applications",
+    "date": "2025-01-01",
+    "featured": false,
+    "techUsed": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "TailwindCSS",
+      "Recharts",
+      "Express"
+    ]
+  },
+  {
+    "id": "12",
+    "title": "Personal Expense Tracker",
+    "description": "A feature-rich personal finance application that enables users to track expenses, manage budgets, and analyze spending patterns. The system integrates Google Gemini AI to parse natural language expense inputs, supports recurring transactions, and provides detailed visual analytics. Built with a secure authentication flow and scalable backend architecture, the project demonstrates applied AI usage in a practical, user-focused domain.",
+    "images": [
+      "/covers/projects/expense_preview/editmodal.png",
+      "/covers/projects/expense_preview/modal.png",
+      "/covers/projects/expense_preview/dashboard2.png",
+      "/covers/projects/expense_preview/home.png",
+      "/covers/projects/expense_preview/aimodal.png",
+      "/covers/projects/expense_preview/dashboard.png",
+      "/covers/projects/expense_preview/templates.png",
+      "/covers/projects/expense_preview/budget.png",
+      "/covers/projects/expense_preview/profile.png"
+    ],
+    "repoLink": "https://github.com/Yehonatal/project-expenses",
+    "liveLink": "https://project-expenses-pied.vercel.app/",
+    "category": "Productivity Tools",
+    "date": "2025-01-01",
+    "featured": false,
+    "techUsed": [
+      "React",
+      "TypeScript",
+      "Node.js",
+      "MongoDB",
+      "JWT",
+      "Gemini API"
+    ]
+  },
+  {
+    "id": "13",
+    "title": "letsBuild",
+    "description": "letsBuild is a community-driven idea sharing platform where users can publish, vote on, and discuss ideas written in Markdown. Ideas are ranked based on engagement metrics such as votes, views, and comments. The platform emphasizes clean design, smooth animations, and scalable state management patterns, making it suitable for collaborative creativity and knowledge sharing.",
+    "images": ["/covers/projects/letsbuild_preview/homepage.png"],
+    "repoLink": "https://github.com/Yehonatal/project-letsbuild",
+    "liveLink": "",
+    "category": "Web Applications",
+    "date": "2025-01-01",
+    "featured": false,
+    "techUsed": [
+      "React",
+      "TypeScript",
+      "Redux Toolkit",
+      "Redux Saga",
+      "MongoDB",
+      "TailwindCSS"
+    ]
+  },
+  {
+    "id": "14",
+    "title": "Project Issues",
+    "description": "A modern issue tracking and project management tool inspired by Linear.app. Built for speed and clarity, it features workspace-based collaboration, real-time updates, keyboard-driven workflows, and a clean Kanban interface. The system is architected with Supabase for realtime data, authentication, and storage, and is designed to evolve toward AI-assisted planning and semantic search.",
+    "images": [
+      "/covers/projects/issues_preview/home-light.png",
+      "/covers/projects/issues_preview/home-dark.png",
+      "/covers/projects/issues_preview/feat-light.png",
+      "/covers/projects/issues_preview/price-dark.png"
+    ],
+    "repoLink": "https://github.com/Yehonatal/project-issues",
+    "liveLink": "https://project-issues-orpin.vercel.app/",
+    "category": "Developer Tools",
+    "date": "2025-01-01",
+    "featured": true,
+    "techUsed": [
+      "Next.js",
+      "Supabase",
+      "PostgreSQL",
+      "TailwindCSS",
+      "shadcn/ui",
+      "Gemini API"
+    ]
+  },
+  {
+    "id": "15",
+    "title": "GymBro",
+    "description": "A personal workout tracking application built to log exercises, sets, reps, and weights while providing long-term progress insights. Designed primarily for private use, GymBro shares architectural similarities with CourseHub but uses MongoDB as its primary database. The project focuses on data modeling, performance tracking, and clean UI for daily personal use.",
+    "images": [
+      "/covers/projects/gymbro_preview/weeklylog.png",
+      "/covers/projects/gymbro_preview/createplan.png",
+      "/covers/projects/gymbro_preview/dashboard.png",
+      "/covers/projects/gymbro_preview/trainingplans.png",
+      "/covers/projects/gymbro_preview/analytics.png",
+      "/covers/projects/gymbro_preview/trackerpage.png"
+    ],
+    "repoLink": "https://github.com/Yehonatal/project-gymbro",
+    "liveLink": "https://project-gymbro.vercel.app/",
+    "category": "Productivity Tools",
+    "date": "2025-01-01",
+    "featured": false,
+    "techUsed": ["Next.js", "TailwindCSS", "MongoDB"]
+  },
+  {
     "id": "1",
     "title": "You and Your Home",
-    "description": "A school project for an e-commerce site, with all the bells and whistles",
-    "img": "/covers/projects/yourhome2.jpg",
+    "description": "A comprehensive e-commerce web application developed as a university project, featuring product listings, category browsing, shopping cart functionality, and basic user flows. The project emphasizes full CRUD operations, responsive UI design, and integration between a modern React frontend and a PHP/MySQL backend. It was designed to simulate a real-world online marketplace with attention to usability and data handling.",
+    "images": ["/covers/projects/yourhome2.jpg"],
     "repoLink": "https://github.com/Yehonatal/webII-project?tab=readme-ov-file",
     "liveLink": "https://github.com/Yehonatal/webII-project?tab=readme-ov-file",
-    "category": "Web Development",
+    "category": "Web Applications",
     "date": "2023-06-15",
     "featured": true,
-    "techUsed": ["React", "Tailwindcss", "php", "MySql", "JavaScript", "Vite"]
+    "techUsed": ["React", "TailwindCSS", "PHP", "MySQL", "JavaScript", "Vite"]
   },
   {
     "id": "2",
-    "title": "Untitled blogs",
-    "description": "A simple blog site for all your untitled blogs, they don't need to be perfect nor need titles :) just write and post and see the world learn from your life.",
-    "img": "/covers/projects/sillyblogs.jpg",
+    "title": "Untitled Blogs",
+    "description": "A minimalist blogging platform built around the idea of frictionless writing. Users can create and publish posts without titles, encouraging raw expression and simplicity. The application focuses on clean UI, straightforward content creation, and basic persistence using MongoDB, demonstrating early experience with full-stack concepts and user-centered design.",
+    "images": ["/covers/projects/sillyblogs.jpg"],
     "repoLink": "https://sillyblogs.vercel.app/",
     "liveLink": "https://sillyblogs.vercel.app/",
-    "category": "Blog",
+    "category": "Web Applications",
     "date": "2023-05-10",
     "featured": false,
-    "techUsed": ["React", "Tailwindcss", "MongoDb"]
+    "techUsed": ["React", "TailwindCSS", "MongoDB"]
   },
   {
     "id": "3",
     "title": "Dictionary",
-    "description": "This is a simple dictionary website that uses the Free Dictionary API to provide users with quick and easy access to word definitions, synonyms, and related terms.",
-    "img": "/covers/projects/dictdark.png",
+    "description": "A lightweight dictionary web application that integrates with the Free Dictionary API to fetch word definitions, phonetics, synonyms, and related terms. Built with vanilla JavaScript, the project focuses on API consumption, asynchronous data handling, and clean UI rendering without the use of modern frameworks.",
+    "images": ["/covers/projects/dictdark.png"],
     "repoLink": "https://dictionary-bad.netlify.app/",
     "liveLink": "https://dictionary-bad.netlify.app/",
-    "category": "Web Development",
+    "category": "Web Applications",
     "date": "2023-04-22",
     "featured": false,
     "techUsed": ["HTML", "CSS", "JavaScript"]
   },
   {
     "id": "4",
-    "title": "Manages School v2",
-    "description": "This is a simple Student Management System project with a focus on managing students, courses, and grades.",
-    "img": "/covers/projects/manageschool.jpeg",
+    "title": "Manage School v2",
+    "description": "A desktop-based Student Management System designed to manage students, courses, and academic records. The application uses JavaFX for the user interface and MySQL for persistent storage. It demonstrates object-oriented design, relational data modeling, and basic CRUD workflows within a desktop application context.",
+    "images": ["/covers/projects/manageschool.jpeg"],
     "repoLink": "https://github.com/Yehonatal/ManageSchool_v2",
     "liveLink": "https://github.com/Yehonatal/ManageSchool_v2",
-    "category": "Desktop App",
+    "category": "Desktop Applications",
     "date": "2023-03-18",
     "featured": false,
-    "techUsed": ["Java", "JavaFx", "MySql"]
+    "techUsed": ["Java", "JavaFX", "MySQL"]
   },
   {
     "id": "5",
     "title": "Password Generator",
-    "description": "This is a web app / chrome extension that generates strong and secure passwords with varying levels of complexity.",
-    "img": "/covers/projects/pswgen.png",
+    "description": "A secure password generation tool available as a web application and Chrome extension. It allows users to generate strong passwords with configurable length and character rules. The project focuses on client-side logic, randomness, and usability while reinforcing security-conscious development practices.",
+    "images": ["/covers/projects/pswgen.png"],
     "repoLink": "https://passwordgenerator-project.netlify.app/",
     "liveLink": "https://passwordgenerator-project.netlify.app/",
-    "category": "Web Development",
+    "category": "Web Applications",
     "date": "2023-02-28",
     "featured": false,
     "techUsed": ["HTML", "CSS", "JavaScript"]
   },
   {
     "id": "6",
-    "title": "Your Home",
-    "description": "This is the front-end platform where the backend will be used to connect with database along side the content management system.",
-    "img": "/covers/projects/yourhome.png",
+    "title": "Your Home (Full Stack)",
+    "description": "A full-stack web platform developed to explore modern frontend state management and backend integration. The project uses React and Redux on the frontend with a Node.js and Express backend, connected to MongoDB. It demonstrates API-driven architecture, global state handling, and separation of concerns between client and server layers.",
+    "images": ["/covers/projects/yourhome.png"],
     "repoLink": "https://yourhome-schoolproject.netlify.app/",
     "liveLink": "https://yourhome-schoolproject.netlify.app/",
-    "category": "Full Stack",
+    "category": "Full-Stack Applications",
     "date": "2023-01-12",
     "featured": true,
-    "techUsed": [
-      "Vite",
-      "JavaScript",
-      "React",
-      "Redux",
-      "Node.Js",
-      "MongoDb",
-      "Express.js"
-    ]
+    "techUsed": ["React", "Redux", "Node.js", "Express", "MongoDB", "Vite"]
   },
   {
     "id": "7",
-    "title": "Other me",
-    "description": "Using the GitHub users API to pull profile data and display it.",
-    "img": "/covers/projects/othermedark.png",
+    "title": "Other Me",
+    "description": "A GitHub profile explorer that consumes the GitHub Users API to display public profile data, repositories, and statistics. This project focuses on external API integration, asynchronous requests, and dynamic UI updates using vanilla web technologies.",
+    "images": ["/covers/projects/othermedark.png"],
     "repoLink": "https://otherme.netlify.app/",
     "liveLink": "https://otherme.netlify.app/",
-    "category": "Web Development",
+    "category": "Web Applications",
     "date": "2023-05-05",
     "featured": false,
     "techUsed": ["HTML", "CSS", "JavaScript"]

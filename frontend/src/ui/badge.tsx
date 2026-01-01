@@ -7,18 +7,14 @@ const Badge = ({ children, className = '' }: BadgeProps) => {
   return (
     <span
       className={`
-        inline-block text-sm px-3 py-1 rounded-lg
-        border-2 border-b-5
-        border-[var(--color-accent)]
-        bg-[var(--color-background)]
-        text-[var(--color-card-foreground)]
-        shadow-md
-        hover:translate-y-[1px]
-        active:translate-y-[2px]
-        hover:border-b-3
-        transition-all duration-150
-        hover:shadow-lg
-        cursor-pointer
+        inline-block text-[9px] px-4 py-1.5 rounded-full
+        bg-[var(--color-secondary)]/5
+        text-[var(--color-muted-foreground)]
+        font-black uppercase tracking-[0.2em]
+        border border-[var(--color-border)]
+        transition-all duration-300
+        hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]
+        cursor-default
         select-none
         ${className}
       `}

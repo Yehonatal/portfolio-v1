@@ -17,23 +17,38 @@ code {
 
 /* 🌞 Light Theme (default) */
 :root {
-  --background: #f4efe9; /* earthy.light */
-  --foreground: #141417; /* earthy.dark */
+  --background: #ffffff;
+  --foreground: #0f172a;
   --card: #ffffff;
-  --card-foreground: #141417;
-  --primary: #d68582; /* earthy.hero */
+  --card-foreground: #0f172a;
+  --primary: #10b981; /* Emerald 500 */
   --primary-foreground: #ffffff;
-  --secondary: #a68a64; /* earthy.DEFAULT */
-  --secondary-foreground: #141417;
-  --border: #a68a64;
-  --muted: #f4efe9;
-  --muted-foreground: #141417;
-  --accent: #82d69769;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --border: #e2e8f0;
+  --muted: #f8fafc;
+  --muted-foreground: #64748b;
+  --accent: #10b981;
   --accent-foreground: #ffffff;
-  --radius: 0.625rem;
+  --radius: 1rem;
 }
 
-/* 🌙 Dark Theme using system preference */
+/* 🌙 Dark Theme */
+.dark {
+  --background: #131313;
+  --foreground: #f8fafc;
+  --card: #020617;
+  --card-foreground: #f8fafc;
+  --primary: #10b981;
+  --primary-foreground: #ffffff;
+  --secondary: #1e293b;
+  --secondary-foreground: #f8fafc;
+  --border: #1e293b;
+  --muted: #0f172a;
+  --muted-foreground: #94a3b8;
+  --accent: #10b981;
+  --accent-foreground: #ffffff;
+}
 
 /* Map CSS vars into Tailwind tokens */
 @theme inline {
@@ -57,5 +72,11 @@ code {
 @layer base {
   body {
     @apply bg-[var(--color-background)] text-[var(--color-foreground)] transition-colors duration-300;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      font-size: 12px;
+    }
   }
 }

@@ -14,7 +14,7 @@ const Button = ({ children, className, onClick, type }: ButtonProps) => {
       onClick={onClick}
       type={type}
       className={cn(
-        'bg-earthy-light  text-sm cursor-pointer text-earthy-dark  border-2 border-b-6 border-earthy  px-4 py-2 rounded-xl active:border-b-[2px] focus:outline-none shadow-md hover:translate-y-[1px] active:translate-y-[2px] hover:border-b-3 transition-all duration-150 hover:shadow-lg',
+        'px-8 py-4 bg-[var(--color-foreground)] text-[var(--color-background)] rounded-full text-[10px] font-black uppercase tracking-[0.3em] shadow-xl hover:shadow-[var(--color-primary)]/20 transition-all duration-500 hover:scale-[1.02] active:scale-[0.98] focus:outline-none',
         className,
       )}
     >

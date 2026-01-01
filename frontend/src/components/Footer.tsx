@@ -1,47 +1,56 @@
-// import { Mail, Phone, MapPin } from 'lucide-react'
-
 const FooterSection = () => {
   return (
-    <section
-      data-aos="fade-up"
-      data-aos-delay="100"
-      className="max-w-5xl mx-auto py-10"
-    >
-      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-black dark:text-white">
-        <div>
-          <h3 className="text-xl font-semibold mb-4">Let’s connect 🤝</h3>
-          <p className="text-gray-700 dark:text-gray-300 mb-4 max-w-md">
-            Feel free to reach out for collaborations, questions, or just a
-            techie chat. I’m always happy to talk!
-          </p>
-          <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-400">
-            <li className="flex items-center gap-2">
-              <Mail size={16} />
-              <span>
-                <strong>Email:</strong> yonatanafewerk@gmail.com
+    <footer className="py-20 md:py-40 px-6 ">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-end mb-20 md:mb-40">
+          <div className="space-y-10">
+            <div className="space-y-6">
+              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--color-primary)]">
+                Contact
               </span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Phone size={16} />
-              <span>
-                <strong>Phone:</strong> +251 966 339 226
-              </span>
-            </li>
-            <li className="flex items-center gap-2">
-              <MapPin size={16} />
-              <span>
-                <strong>Location:</strong> Ethiopia (remote-friendly)
-              </span>
-            </li>
-          </ul>
-        </div>
-      </div> */}
+              <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.85]">
+                Let’s Talk <br />
+                <span className="font-serif italic font-light">Future</span>
+              </h2>
+            </div>
+            <p className="text-sm md:text-lg text-[var(--color-muted-foreground)] max-w-md leading-relaxed font-medium">
+              Currently open to remote opportunities, collaborations, and
+              interesting projects.
+            </p>
+          </div>
 
-      {/* Footer Note */}
-      <div className="mt-12 text-center text-xs text-gray-500 dark:text-gray-600">
-        © {new Date().getFullYear()} Yonatan Afewerk. All rights reserved.
+          <div className="flex flex-col lg:items-end gap-8">
+            <a
+              href="mailto:yonatanafewerk@gmail.com"
+              className="text-xl md:text-4xl font-black tracking-tighter hover:text-[var(--color-primary)] transition-colors duration-500"
+            >
+              yonatanafewerk@gmail.com
+            </a>
+            <div className="flex flex-wrap gap-6 md:gap-10">
+              {['LinkedIn', 'GitHub', 'Twitter', 'Medium'].map((social) => (
+                <a
+                  key={social}
+                  href="#"
+                  className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors"
+                >
+                  {social}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10">
+          <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-muted-foreground)]">
+            © {new Date().getFullYear()} Yonatan Afewerk
+          </div>
+          <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-muted-foreground)]">
+            Built with{' '}
+            <span className="text-[var(--color-primary)]">Passion</span> & Code
+          </div>
+        </div>
       </div>
-    </section>
+    </footer>
   )
 }
 

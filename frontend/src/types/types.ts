@@ -1,6 +1,6 @@
 export type Project = {
   id: string
-  img: string
+  images: string[]
   title: string
   description: string
   techUsed: string[]
