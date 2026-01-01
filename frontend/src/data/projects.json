@@ -198,18 +198,7 @@
     "featured": true,
     "techUsed": ["React", "TailwindCSS", "PHP", "MySQL", "JavaScript", "Vite"]
   },
-  {
-    "id": "2",
-    "title": "Untitled Blogs",
-    "description": "A minimalist blogging platform built around the idea of frictionless writing. Users can create and publish posts without titles, encouraging raw expression and simplicity. The application focuses on clean UI, straightforward content creation, and basic persistence using MongoDB, demonstrating early experience with full-stack concepts and user-centered design.",
-    "images": ["/covers/projects/sillyblogs.jpg"],
-    "repoLink": "https://sillyblogs.vercel.app/",
-    "liveLink": "https://sillyblogs.vercel.app/",
-    "category": "Web Applications",
-    "date": "2023-05-10",
-    "featured": false,
-    "techUsed": ["React", "TailwindCSS", "MongoDB"]
-  },
+
   {
     "id": "3",
     "title": "Dictionary",
@@ -245,18 +234,6 @@
     "date": "2023-02-28",
     "featured": false,
     "techUsed": ["HTML", "CSS", "JavaScript"]
-  },
-  {
-    "id": "6",
-    "title": "Your Home",
-    "description": "A full-stack web platform developed to explore modern frontend state management and backend integration. The project uses React and Redux on the frontend with a Node.js and Express backend, connected to MongoDB. It demonstrates API-driven architecture, global state handling, and separation of concerns between client and server layers.",
-    "images": ["/covers/projects/yourhome.png"],
-    "repoLink": "https://yourhome-schoolproject.netlify.app/",
-    "liveLink": "https://yourhome-schoolproject.netlify.app/",
-    "category": "Full-Stack Applications",
-    "date": "2023-01-12",
-    "featured": true,
-    "techUsed": ["React", "Redux", "Node.js", "Express", "MongoDB", "Vite"]
   },
   {
     "id": "7",
