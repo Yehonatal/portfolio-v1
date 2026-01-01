@@ -43,7 +43,7 @@ const Hero = ({
 
               <div className="flex flex-wrap items-center gap-10 pt-6">
                 <motion.a
-                  href="https://drive.google.com/file/d/1XikLskYXweus7u48pK1IhFYRJ7vpTV4R/view?usp=sharing"
+                  href="https://drive.google.com/file/d/1lFQogpWl42L-UE5DvY_40laKmA_0sXlf/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
