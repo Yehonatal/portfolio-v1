@@ -128,7 +128,12 @@
     "id": "13",
     "title": "letsBuild",
     "description": "letsBuild is a community-driven idea sharing platform where users can publish, vote on, and discuss ideas written in Markdown. Ideas are ranked based on engagement metrics such as votes, views, and comments. The platform emphasizes clean design, smooth animations, and scalable state management patterns, making it suitable for collaborative creativity and knowledge sharing.",
-    "images": ["/covers/projects/letsbuild_preview/homepage.png"],
+    "images": [
+      "/covers/projects/letsbuild_preview/homepage.png",
+      "/covers/projects/letsbuild_preview/ideapage.png",
+      "/covers/projects/letsbuild_preview/ideaspage.png",
+      "/covers/projects/letsbuild_preview/profilepage.png"
+    ],
     "repoLink": "https://github.com/Yehonatal/project-letsbuild",
     "liveLink": "",
     "category": "Web Applications",
