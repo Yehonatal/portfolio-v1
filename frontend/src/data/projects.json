@@ -77,9 +77,11 @@
     "title": "Project Crypto",
     "description": "A CoinGecko-inspired cryptocurrency tracking dashboard that provides real-time market data, interactive charts, and educational content. The system uses a secure Express.js backend as an API proxy with caching, rate limiting, and validation to ensure performance and reliability. The frontend is built with modern React and TypeScript, focusing on responsive design, data visualization, and clean UI architecture.",
     "images": [
-      "/covers/projects/crypto_preview/coindetail.png",
+      "/covers/projects/crypto_preview/homepage.png",
+      "/covers/projects/crypto_preview/comparepage.png",
       "/covers/projects/crypto_preview/edupage.png",
-      "/covers/projects/crypto_preview/homepage.png"
+      "/covers/projects/crypto_preview/profilepage.png",
+      "/covers/projects/crypto_preview/coindetail.png"
     ],
     "repoLink": "https://github.com/Yehonatal/project-crypto",
     "liveLink": "https://project-crypto-pink.vercel.app/",
