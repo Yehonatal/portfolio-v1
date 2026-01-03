@@ -8,7 +8,7 @@ import { Link } from '@tanstack/react-router'
 const ProjectList = ({ projects }: { projects: Project[] }) => {
   const [selectedCategory, setSelectedCategory] = useState('ALL')
   const [currentPage, setCurrentPage] = useState(1)
-  const projectsPerPage = 6
+  const projectsPerPage = 7
 
   const categories = useMemo(
     () => ['ALL', ...new Set(projects.map((p) => p.category))],

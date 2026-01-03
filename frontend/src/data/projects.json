@@ -155,10 +155,10 @@
     "title": "Project Issues",
     "description": "A modern issue tracking and project management tool inspired by Linear.app. Built for speed and clarity, it features workspace-based collaboration, real-time updates, keyboard-driven workflows, and a clean Kanban interface. The system is architected with Supabase for realtime data, authentication, and storage, and is designed to evolve toward AI-assisted planning and semantic search.",
     "images": [
-      "/covers/projects/issues_preview/home-light.png",
+      "/covers/projects/issues_preview/dashboard.png",
+      "/covers/projects/issues_preview/issues-page.png",
       "/covers/projects/issues_preview/home-dark.png",
-      "/covers/projects/issues_preview/feat-light.png",
-      "/covers/projects/issues_preview/price-dark.png"
+      "/covers/projects/issues_preview/home-light.png"
     ],
     "repoLink": "https://github.com/Yehonatal/project-issues",
     "liveLink": "https://project-issues-orpin.vercel.app/",
