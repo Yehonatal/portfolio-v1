@@ -51,6 +51,34 @@
     ]
   },
   {
+    "id": "16",
+    "title": "OtherMe 2.0",
+    "description": "A modern GitHub profile explorer and comparison tool featuring a dashboard, detailed metrics, repository insights, user comparisons, and repository detail views. Built with a TypeScript React + Vite frontend and an Express/Node backend, the app integrates GitHub OAuth for authentication, uses MongoDB for persistence, supports bookmarks and comparisons, and exposes REST routes for search and profile data. Focused on fast client-side UX, maintainable TypeScript code, and secure token-based sessions (JWT).",
+    "images": [
+      "/covers/projects/project_others_2/v2_homepage.png",
+      "/covers/projects/project_others_2/v2_profilepage.png",
+      "/covers/projects/project_others_2/v2_comparepage.png",
+      "/covers/projects/project_others_2/v2_repodetail.png",
+      "/covers/projects/project_others_2/v2_searchpage.png"
+    ],
+    "repoLink": "https://github.com/Yehonatal/project-otherme-s",
+    "liveLink": "",
+    "category": "Full-Stack Applications",
+    "date": "2024-01-01",
+    "featured": true,
+    "techUsed": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Express",
+      "Node.js",
+      "MongoDB",
+      "GitHub OAuth",
+      "JWT",
+      "pnpm"
+    ]
+  },
+  {
     "id": "10",
     "title": "Project Addis",
     "description": "A full-stack song management system developed as an internship test project for Addis Software PLC. The application supports complete CRUD operations, pagination, search with debouncing, and modern UI patterns. Built using a manually configured Webpack setup and Redux Toolkit with Redux-Saga, this project reflects rapid learning, practical problem-solving, and real-world engineering trade-offs under time constraints.",
