@@ -34,81 +34,91 @@ const ProjectList = ({ projects }: { projects: Project[] }) => {
   const currentProjects = filteredProjects.slice(indexOfFirst, indexOfLast)
 
   return (
-    <section className="py-20 md:py-40 max-w-6xl mx-auto px-6">
-      <header className="mb-20 md:mb-40 space-y-10">
-        <div className="space-y-6">
-          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--color-primary)]">
-            Portfolio
+    <section className="py-16 max-w-6xl mx-auto px-6">
+      <header className="mb-16 border-b border-[var(--color-border)] pb-10 text-center">
+        <div className="space-y-6 flex flex-col items-center">
+          <span className="inline-block text-[10px] font-medium uppercase tracking-[0.3em] text-[var(--color-muted-foreground)]">
+            The Portfolio
           </span>
-          <h1 className="text-5xl md:text-8xl font-black tracking-tighter text-[var(--color-foreground)] leading-[0.85]">
-            Selected <br />
-            <span className="font-serif italic font-light">Works</span>
+          <h1 className="text-5xl md:text-7xl font-serif tracking-tight leading-none text-[var(--color-foreground)]">
+            Selected Works
           </h1>
         </div>
-        <p className="text-sm md:text-lg text-[var(--color-muted-foreground)] max-w-xl leading-relaxed font-medium">
+        <p className="text-sm md:text-base max-w-2xl mx-auto font-light leading-relaxed text-[var(--color-muted-foreground)] mt-8">
           A curated collection of digital experiences, from AI systems to
           immersive web applications. Each project is a journey in
           problem-solving.
         </p>
 
-        <div className="flex flex-wrap gap-4 pt-10">
-          {categories.map((category, idx) => (
-            <button
-              key={idx}
-              onClick={() => {
-                setSelectedCategory(category)
-                setCurrentPage(1)
-              }}
-              className={`px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-500 border
+        <div className="flex flex-col items-center gap-6 pt-12">
+          <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-[var(--color-muted-foreground)] border-b border-[var(--color-border)] pb-2">
+            Section Index
+          </span>
+          <div className="flex flex-wrap justify-center gap-4">
+            {categories.map((category, idx) => (
+              <button
+                key={idx}
+                onClick={() => {
+                  setSelectedCategory(category)
+                  setCurrentPage(1)
+                }}
+                className={`text-[10px] font-medium uppercase tracking-[0.2em] transition-colors duration-300 pb-1 border-b
                 ${
                   selectedCategory === category
-                    ? 'bg-[var(--color-foreground)] text-[var(--color-background)] border-[var(--color-foreground)]'
-                    : 'bg-transparent text-[var(--color-muted-foreground)] border-[var(--color-border)] hover:border-[var(--color-foreground)] hover:text-[var(--color-foreground)]'
+                    ? 'border-[var(--color-foreground)] text-[var(--color-foreground)]'
+                    : 'border-transparent text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)]'
                 }`}
-            >
-              {category}
-            </button>
-          ))}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
       {selectedCategory === 'ALL' && currentPage === 1 && featuredProject && (
         <motion.div
-          initial={{ opacity: 0, y: 60 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-          className="mb-20 md:mb-80 group"
+          transition={{ duration: 0.8 }}
+          className="mb-20 group relative bg-[var(--color-background)] border-b border-[var(--color-border)] pb-10"
         >
           <Link
             to="/projects/$projectsId"
             params={{ projectsId: featuredProject.id }}
-            className="grid lg:grid-cols-[1.5fr_0.5fr] gap-10 lg:gap-40 items-center"
+            className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center"
           >
-            <div className="relative aspect-[16/9] overflow-hidden rounded-[2rem] md:rounded-[3rem] bg-[var(--color-secondary)]/5 shadow-[0_40px_100px_rgba(0,0,0,0.08)] border border-[var(--color-border)]">
+            <div className="relative aspect-[4/3] lg:aspect-[3/4] border border-[var(--color-border)] overflow-hidden bg-[var(--color-secondary)]">
               <img
                 src={featuredProject.images[0]}
                 alt={featuredProject.title}
-                className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 group-hover:brightness-110"
+                className="w-full h-full object-cover filter grayscale-[0.8] group-hover:grayscale-0 transition-all duration-700"
               />
-            </div>
-            <div className="space-y-8 md:space-y-12">
-              <div className="space-y-6 md:space-y-8">
-                <span className="text-[10px] font-black uppercase tracking-[0.6em] text-[var(--color-primary)]">
-                  Featured Project (My Favorite)
+              <div className="absolute top-0 left-0 bg-[var(--color-background)] px-4 py-2 border-r border-b border-[var(--color-border)]">
+                <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--color-foreground)]">
+                  Feature
                 </span>
-                <h3 className="text-4xl md:text-7xl font-black tracking-tighter leading-[0.9]">
+              </div>
+            </div>
+            <div className="flex flex-col justify-center">
+              <div className="space-y-6">
+                <h3 className="text-4xl md:text-6xl font-serif tracking-tight leading-tight text-[var(--color-foreground)] group-hover:text-[var(--color-muted-foreground)] transition-colors">
                   {featuredProject.title}
                 </h3>
-                <p className="text-[14px] text-gray-500 leading-relaxed font-medium">
+                <p className="text-sm leading-relaxed font-light text-[var(--color-muted-foreground)]">
                   {featuredProject.description}
                 </p>
-              </div>
-              <div className="flex items-center gap-10 group/link">
-                <span className="text-[11px] font-black uppercase tracking-[0.4em]">
-                  Explore Project
-                </span>
-                <div className="h-[1px] w-20 bg-[var(--color-foreground)] group-hover/link:w-32 group-hover/link:bg-[var(--color-primary)] transition-all duration-700" />
+                <div className="flex flex-wrap gap-3 pt-4">
+                  {featuredProject.techUsed?.map((tech) => (
+                    <span
+                      key={tech}
+                      className="text-[10px] font-medium uppercase tracking-[0.1em] text-[var(--color-foreground)]"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </Link>
@@ -118,7 +128,7 @@ const ProjectList = ({ projects }: { projects: Project[] }) => {
       <AnimatePresence mode="wait">
         <motion.div
           layout
-          className="grid gap-x-16 gap-y-32 sm:grid-cols-2 lg:grid-cols-3"
+          className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3"
         >
           {currentProjects
             .filter(
@@ -133,10 +143,11 @@ const ProjectList = ({ projects }: { projects: Project[] }) => {
               <motion.div
                 layout
                 key={project.id}
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.5 }}
+                className="h-full"
               >
                 <ProjectCard
                   project={project}
@@ -149,7 +160,7 @@ const ProjectList = ({ projects }: { projects: Project[] }) => {
       </AnimatePresence>
 
       {totalPages > 1 && (
-        <div className="mt-24 flex justify-center">
+        <div className="mt-24 flex justify-center pb-12">
           <RenderPagination
             totalPages={totalPages}
             currentPage={currentPage}

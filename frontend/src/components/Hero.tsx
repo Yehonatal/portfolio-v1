@@ -15,82 +15,112 @@ const Hero = ({
   description = 'Building is my passion, and programming is how I turn ideas into reality. From crafting sleek interfaces to tackling tricky problems, I love seeing projects come to life one line of code at a time.',
 }: HeroProp) => {
   return (
-    <>
-      <section className="pt-32 pb-2 md:pt-64 md:pb-10 max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-12 md:gap-24 items-center mb-20 md:mb-20">
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
-          >
-            <div className="space-y-10">
+    <section className="relative pb-16 md:pb-24 max-w-6xl mx-auto px-6 bg-[var(--color-background)]">
+      <div className="grid lg:grid-cols-[2.5fr_1fr] gap-12 lg:gap-16 pt-8">
+        {/* Main Article Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="space-y-8">
+            <div className="flex justify-between items-center border-b border-[var(--color-border)] pb-4">
+              <span className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)]">
+                Exclusive Feature
+              </span>
+              <span className="text-sm font-serif italic text-[var(--color-muted-foreground)]">
+                By Our Technology Correspondent
+              </span>
+            </div>
+
+            <h2 className="text-5xl md:text-7xl font-serif tracking-tight leading-[1.05] text-[var(--color-foreground)]">
+              Software Engineer Breaks New Grounds in Web Development
+            </h2>
+
+            <div className="grid md:grid-cols-2 gap-10 pt-6">
               <div className="space-y-6">
-                <span className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--color-primary)] block">
-                  {name}
-                </span>
-                <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] text-[var(--color-foreground)]">
-                  Crafting <br />
-                  <span className="font-serif italic font-light">
-                    Digital
-                  </span>{' '}
-                  Soul
-                </h1>
+                <p className="text-xl leading-relaxed font-serif italic border-l px-6 border-[var(--color-border)] text-[var(--color-muted-foreground)]">
+                  "It's not just about making things work, but how eloquently they work together," he states.
+                </p>
+                <div className="text-sm leading-loose text-[var(--color-foreground)] text-justify font-light">
+                  <span className="drop-cap">I</span>n a world rapidly shifting towards modular and performant web spaces, the focus has shifted entirely onto crafting scalable applications. Yonatan, an ambitious software engineer, is currently redefining what modern web applications look like and how they perform. With a keen eye for aesthetics and a rigorous engineering process, he merges the gap between design and robust functionality.
+                </div>
               </div>
-
-              <p className="max-w-xl text-sm md:text-lg text-[var(--color-muted-foreground)] leading-relaxed font-medium tracking-tight">
-                {description}
-              </p>
-
-              <div className="flex flex-wrap items-center gap-10 pt-6">
-                <motion.a
-                  href="https://drive.google.com/file/d/1lFQogpWl42L-UE5DvY_40laKmA_0sXlf/view?usp=sharing"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-8 py-4 bg-[var(--color-foreground)] text-[var(--color-background)] rounded-full text-[11px] font-black uppercase tracking-[0.3em] shadow-2xl hover:shadow-[var(--color-primary)]/20 transition-all"
-                >
-                  Download Resume
-                </motion.a>
-
-                <div className="flex items-center gap-4 text-[var(--color-muted-foreground)]">
-                  <div className="w-2 h-2 rounded-full bg-[var(--color-primary)] animate-pulse" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em]">
-                    {title}
-                  </span>
+              <div className="space-y-8">
+                <div className="text-sm leading-loose text-[var(--color-foreground)] text-justify font-light">
+                  {description}
+                  <div className="mt-8 border-t border-[var(--color-border)] pt-4 flex justify-between items-center">
+                     <span className="text-xs uppercase tracking-widest text-[var(--color-muted-foreground)] font-medium">Special Report</span>
+                     <span className="text-xs uppercase tracking-widest text-[var(--color-foreground)] font-medium">{name}</span>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-4 pt-2">
+                  <motion.a
+                    href="https://drive.google.com/file/d/1lFQogpWl42L-UE5DvY_40laKmA_0sXlf/view?usp=sharing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ opacity: 0.8 }}
+                    className="px-6 py-3 border border-[var(--color-foreground)] text-xs font-medium uppercase tracking-[0.2em] bg-[var(--color-foreground)] text-[var(--color-background)] transition-colors"
+                  >
+                    Read Resume
+                  </motion.a>
+                  <a
+                    href="mailto:yonatanafewerk@gmail.com"
+                    className="px-6 py-3 border border-[var(--color-border)] text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-foreground)] hover:border-[var(--color-foreground)] transition-colors"
+                  >
+                    Contact Editor
+                  </a>
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
 
-          <div className="flex flex-col items-center lg:items-end gap-12">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ duration: 1, ease: [0.23, 1, 0.32, 1] }}
-              className="relative w-64 h-64 md:w-72 md:h-72 group"
-            >
-              <div className="absolute inset-0 bg-[var(--color-primary)] rounded-[2rem] rotate-6 opacity-20 blur-2xl group-hover:blur-3xl transition-all duration-500" />
-              <div className="absolute inset-0 bg-[var(--color-secondary)] rounded-[2rem] -rotate-3 border border-[var(--color-border)]" />
-              <div className="relative w-full h-full rounded-[2rem] overflow-hidden border-2 border-[var(--color-background)] shadow-2xl rotate-3 group-hover:rotate-0 transition-all duration-500">
+        {/* Sidebar Section */}
+        <aside className="space-y-10 border-t lg:border-t-0 lg:border-l border-[var(--color-border)] pt-10 lg:pt-0 lg:pl-10">
+          <div className="space-y-3">
+             <div className="border border-[var(--color-border)] p-1">
                 <img
                   src="/me.jpg"
                   alt="Yonatan Afewerk"
-                  className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700"
+                  className="w-full h-auto object-cover grayscale opacity-90 hover:opacity-100 transition-opacity"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-primary)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </div>
-            </motion.div>
+             </div>
+             <p className="text-[10px] text-center uppercase tracking-widest text-[var(--color-muted-foreground)]">
+                Fig 1.0 — The Engineer at Work (Circa 2024)
+             </p>
+          </div>
 
+          <div className="pt-8 border-t border-[var(--color-border)]">
+            <h3 className="text-xs font-serif italic text-center mb-6 text-[var(--color-muted-foreground)]">
+              Curriculum Vitae
+            </h3>
             <EducationSection />
           </div>
-        </div>
 
-        <div className="pt-20 ">
-          <TechStack />
-        </div>
-      </section>
-    </>
+          <div className="pt-8 border-t border-[var(--color-border)]">
+            <h3 className="text-[10px] font-medium uppercase tracking-[0.2em] text-center mb-4 text-[var(--color-muted-foreground)]">
+              Classifieds
+            </h3>
+            <div className="border border-[var(--color-border)] p-6 text-center space-y-4 bg-[var(--color-secondary)]">
+              <p className="text-xs uppercase tracking-widest text-[var(--color-foreground)] leading-relaxed">
+                Seeking Elegant & <br/> Robust Solutions?
+              </p>
+              <p className="text-2xl font-serif italic text-[var(--color-foreground)]">
+                Available for Hire
+              </p>
+              <p className="text-[9px] uppercase tracking-widest text-[var(--color-muted-foreground)] pt-2">
+                Inquire Within
+              </p>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div className="pt-20">
+        <TechStack />
+      </div>
+    </section>
   )
 }
 

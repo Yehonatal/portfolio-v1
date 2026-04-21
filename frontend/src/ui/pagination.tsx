@@ -24,11 +24,11 @@ const RenderPagination = ({
       <button
         onClick={handlePrev}
         disabled={currentPage === 1}
-        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-all duration-500 
+        className={`w-12 h-12 rounded-none flex items-center justify-center border-2 transition-none duration-0 
           ${
             currentPage === 1
               ? 'border-[var(--color-border)] text-[var(--color-muted-foreground)] opacity-50 cursor-not-allowed'
-              : 'border-[var(--color-border)] text-[var(--color-foreground)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:scale-110'
+              : 'border-[var(--color-foreground)] text-[var(--color-foreground)] hover:bg-[var(--color-foreground)] hover:text-[var(--color-background)] focus:bg-[var(--color-foreground)] focus:text-[var(--color-background)]'
           }`}
       >
         <ChevronLeft size={18} />
@@ -42,11 +42,11 @@ const RenderPagination = ({
             <button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`w-10 h-10 rounded-full text-[10px] font-black transition-all duration-500 border
+              className={`w-10 h-10 rounded-none text-[10px] font-black transition-none duration-0 border-2
                 ${
                   isActive
-                    ? 'bg-[var(--color-foreground)] border-[var(--color-foreground)] text-[var(--color-background)] shadow-lg'
-                    : 'bg-transparent border-transparent text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] hover:border-[var(--color-border)]'
+                    ? 'bg-[var(--color-foreground)] border-[var(--color-foreground)] text-[var(--color-background)]'
+                    : 'bg-[var(--color-background)] border-[var(--color-foreground)] text-[var(--color-foreground)] hover:bg-[var(--color-foreground)] hover:text-[var(--color-background)] focus:bg-[var(--color-foreground)] focus:text-[var(--color-background)]'
                 }`}
             >
               {page}
@@ -58,11 +58,11 @@ const RenderPagination = ({
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-all duration-500 
+        className={`w-12 h-12 rounded-none flex items-center justify-center border-2 transition-none duration-0 
           ${
             currentPage === totalPages
               ? 'border-[var(--color-border)] text-[var(--color-muted-foreground)] opacity-50 cursor-not-allowed'
-              : 'border-[var(--color-border)] text-[var(--color-foreground)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] hover:scale-110'
+              : 'border-[var(--color-foreground)] text-[var(--color-foreground)] hover:bg-[var(--color-foreground)] hover:text-[var(--color-background)] focus:bg-[var(--color-foreground)] focus:text-[var(--color-background)]'
           }`}
       >
         <ChevronRight size={18} />

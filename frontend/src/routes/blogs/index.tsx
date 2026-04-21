@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import blogsData from '@/data/blogs.json'
-import { motion } from 'framer-motion'
+import { ArrowUpRight } from 'lucide-react'
 
 export const Route = createFileRoute('/blogs/')({
   component: BlogsPage,
@@ -8,63 +8,63 @@ export const Route = createFileRoute('/blogs/')({
 
 function BlogsPage() {
   return (
-    <div className="min-h-screen bg-[var(--color-background)] py-40 px-6">
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-40 space-y-10">
-          <div className="space-y-6">
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--color-primary)]">
-              Journal
+    <div className="min-h-screen bg-[var(--color-background)] py-16 px-6 border-x border-[var(--color-border)] max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
+        <header className="mb-16 border-b border-[var(--color-border)] pb-12 text-center pt-10">
+          <div className="inline-block border border-[var(--color-border)] px-4 py-1.5 mb-8">
+            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)]">
+              Daily Chronicle
             </span>
-            <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-[var(--color-foreground)] leading-[0.85]">
-              Thoughts & <br />{' '}
-              <span className="font-serif italic font-light">Reflections</span>
-            </h1>
           </div>
-          <p className="text-base md:text-lg text-[var(--color-muted-foreground)] max-w-xl leading-relaxed font-medium">
-            Exploring the intersection of code, creativity, and the human
-            experience. A collection of insights from my journey.
+          <h1 className="text-5xl md:text-7xl font-serif tracking-tight text-[var(--color-foreground)] leading-none">
+            The Journal
+          </h1>
+          <p className="mt-8 text-sm md:text-base font-light max-w-2xl mx-auto border-t border-[var(--color-border)] pt-6 text-[var(--color-muted-foreground)]">
+            Exclusive insights on code, creativity & the human experience.
           </p>
         </header>
 
-        <div className="grid gap-40">
+        <div className="grid gap-12">
           {blogsData.map((blog, index) => (
-            <motion.a
+            <a
               key={index}
               href={blog.link}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-              className="group grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-24 items-center"
+              className="group block border-b border-[var(--color-border)] pb-12 last:border-0"
             >
-              <div className="relative aspect-[16/10] overflow-hidden rounded-[2.5rem] bg-[var(--color-secondary)]/5 border border-[var(--color-border)]">
-                <img
-                  src={blog.cover}
-                  alt={blog.title}
-                  className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 group-hover:brightness-110"
-                />
-              </div>
-
-              <div className="space-y-10">
-                <div className="space-y-6">
-                  <h2 className="text-3xl md:text-5xl font-black tracking-tighter leading-[0.9] group-hover:text-[var(--color-primary)] transition-colors duration-500">
-                    {blog.title}
-                  </h2>
-                  <p className="text-[13px] md:text-[14px] text-[var(--color-muted-foreground)] leading-relaxed line-clamp-3 font-medium">
-                    {blog.description}
-                  </p>
+              <div className="grid lg:grid-cols-[1fr_1.5fr] gap-8 lg:gap-12 items-center">
+                <div className="relative aspect-[4/3] lg:aspect-auto lg:h-full border border-[var(--color-border)] overflow-hidden bg-[var(--color-secondary)]">
+                  <img
+                    src={blog.cover}
+                    alt={blog.title}
+                    className="w-full h-full object-cover grayscale-[0.8] group-hover:grayscale-0 transition-all duration-700"
+                  />
+                  <div className="absolute top-0 left-0 bg-[var(--color-background)] text-[var(--color-foreground)] px-4 py-2 text-[10px] font-medium border-b border-r border-[var(--color-border)] uppercase tracking-[0.1em]">
+                    No. {String(index + 1).padStart(2, '0')}
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-8 group/link">
-                  <span className="text-[11px] font-black uppercase tracking-[0.3em]">
-                    Read on Medium
-                  </span>
-                  <div className="h-[1px] w-16 bg-[var(--color-foreground)] group-hover/link:w-24 group-hover/link:bg-[var(--color-primary)] transition-all duration-500" />
+                <div className="flex flex-col justify-center py-4">
+                  <div className="space-y-6">
+                    <h2 className="text-3xl md:text-5xl font-serif tracking-tight leading-tight group-hover:text-[var(--color-muted-foreground)] transition-colors">
+                      {blog.title}
+                    </h2>
+                    <div className="h-[1px] w-20 bg-[var(--color-border)]" />
+                    <p className="text-sm md:text-base font-light leading-relaxed text-[var(--color-muted-foreground)] drop-cap">
+                      {blog.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-10 flex items-center justify-between border-t border-[var(--color-border)] pt-4">
+                    <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)] group-hover:text-[var(--color-foreground)] transition-colors">
+                      Read Article
+                    </span>
+                    <ArrowUpRight className="w-5 h-5 text-[var(--color-muted-foreground)] group-hover:text-[var(--color-foreground)] transition-colors" strokeWidth={1.5} />
+                  </div>
                 </div>
               </div>
-            </motion.a>
+            </a>
           ))}
         </div>
       </div>

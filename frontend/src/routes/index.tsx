@@ -14,31 +14,30 @@ function App() {
     <div className="bg-[var(--color-background)]">
       <Hero />
 
-      <section className="py-40 max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-32 gap-12">
-          <div className="space-y-6">
+      <section className="py-20 max-w-6xl mx-auto px-6 border-t border-[var(--color-border)]">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8 border-b border-[var(--color-border)] pb-6">
+          <div className="space-y-4">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-[1px] bg-[var(--color-primary)]" />
-              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--color-primary)]">
+              <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)]">
                 Selected Works
               </span>
+              <div className="w-12 h-[1px] bg-[var(--color-border)]" />
             </div>
-            <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.85]">
-              Featured <br />
-              <span className="font-serif italic font-light">Creations</span>
+            <h2 className="text-4xl md:text-5xl font-serif tracking-tight text-[var(--color-foreground)]">
+              Featured Creations
             </h2>
           </div>
 
           <Link
             to="/projects"
-            className="group flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.3em] hover:text-[var(--color-primary)] transition-all"
+            className="group flex items-center gap-4 text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors"
           >
-            Explore All
-            <div className="w-12 h-[1px] bg-[var(--color-foreground)] group-hover:w-20 group-hover:bg-[var(--color-primary)] transition-all duration-500" />
+            Explore Portfolio
+            <div className="w-12 h-[1px] bg-[var(--color-border)] group-hover:bg-[var(--color-foreground)] transition-colors" />
           </Link>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {featuredProjects.map((project) => (
             <ProjectCard
               key={project.id}

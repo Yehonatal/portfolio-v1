@@ -2,46 +2,39 @@ import { motion } from 'framer-motion'
 
 const Education = () => (
   <motion.div
-    initial={{ opacity: 0, y: 20 }}
+    initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.8, delay: 0.2 }}
-    className="w-full max-w-[480px] space-y-4"
+    className="w-full border-b border-[var(--color-border)] bg-[var(--color-background)] py-6 space-y-5"
   >
-    <div>
-      <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--color-primary)]">
-        Education
+    <div className="border-b border-[var(--color-border)] pb-2 mb-4">
+      <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)]">
+        Academic Record
       </span>
-      <div>
-        <h4 className="text-2xl  font-black text-[var(--color-foreground)] tracking-tighter leading-tight">
-          Haramaya University
-        </h4>
-        <p className="text-[13px] font-medium italic text-[var(--color-muted-foreground)]">
-          B.Sc. in Software Engineering
-        </p>
-      </div>
-    </div>
-
-    <div className="grid grid-cols-2 gap-2">
-      <div>
-        <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-muted-foreground)]">
-          Graduation
-        </span>
-        <p className="text-sm font-black text-[var(--color-foreground)]">
-          JAN 2026
-        </p>
-      </div>
-      <div>
-        <span className="text-[9px] font-black uppercase tracking-widest text-[var(--color-muted-foreground)]">
-          CGPA
-        </span>
-        <p className="text-md font-black text-[var(--color-primary)]">3.93</p>
-      </div>
     </div>
 
     <div>
-      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--color-primary)]">
-        Dean’s List
-      </span>
+      <h4 className="text-xl font-serif tracking-tight text-[var(--color-foreground)]">
+        Haramaya University
+      </h4>
+      <p className="text-xs font-light uppercase tracking-widest mt-1 text-[var(--color-muted-foreground)]">
+        B.Sc. in Software Engineering
+      </p>
+    </div>
+
+    <div className="grid grid-cols-2 gap-6 border-y border-[var(--color-border)] py-4 text-[10px] font-medium uppercase tracking-[0.1em] text-[var(--color-foreground)]">
+      <div>
+        <div className="text-[var(--color-muted-foreground)] mb-1">Graduation</div>
+        <div className="text-sm font-serif">Jan 2026</div>
+      </div>
+      <div>
+        <div className="text-[var(--color-muted-foreground)] mb-1">CGPA</div>
+        <div className="text-sm font-serif">3.93</div>
+      </div>
+    </div>
+
+    <div className="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--color-foreground)] pt-2">
+      Dean’s List
     </div>
   </motion.div>
 )

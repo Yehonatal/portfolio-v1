@@ -4,7 +4,7 @@ import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-import Header from '@/components/Header'
+import Navbar from '@/components/Navbar'
 import Loading from '@/components/Loading'
 
 import appCss from '../styles.css?url'
@@ -53,7 +53,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         {hydrated ? (
           <>
-            <Header />
+            <Navbar />
             {children}
             <Footer />
           </>

@@ -1,76 +1,58 @@
 import othersData from '@/data/others.json'
-import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 
 const OtherProjects = () => {
-  const getSpanClass = (index: number) => {
-    const patterns = [
-      'lg:col-span-2 lg:row-span-2', // Large square
-      'lg:col-span-1 lg:row-span-1', // Small square
-      'lg:col-span-1 lg:row-span-2', // Tall
-      'lg:col-span-2 lg:row-span-1', // Wide
-    ]
-    return patterns[index % patterns.length]
-  }
-
   return (
-    <section className="py-20 md:py-40 bg-[var(--color-background)]">
+    <section className="py-16 bg-[var(--color-background)] border-t border-[var(--color-border)]">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="mb-20 md:mb-40 space-y-10">
-          <div className="space-y-6">
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--color-primary)]">
-              UI Lab
-            </span>
-            <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.85]">
-              Experiments & <br />
-              <span className="font-serif italic font-light">
-                Micro-Interactions
-              </span>
+        <div className="mb-12 border-b border-[var(--color-border)] pb-8">
+          <div className="flex flex-col md:flex-row justify-between items-baseline gap-6">
+            <h2 className="text-4xl md:text-5xl font-serif tracking-tight text-[var(--color-foreground)]">
+              Classifieds
             </h2>
+            <span className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)] border-l border-[var(--color-border)] pl-4">
+              Vol. I — UI/UX
+            </span>
           </div>
-          <p className="text-sm md:text-lg text-gray-500 max-w-xl leading-relaxed font-medium">
-            A playground for frontend explorations, UI components, and creative
-            coding experiments. Each piece is a study in motion and form.
+          <p className="mt-6 text-sm font-light max-w-2xl border-l border-[var(--color-border)] pl-4 text-[var(--color-muted-foreground)]">
+            A repository of interactive experiments and frontend explorations.
+            Strictly business.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 auto-rows-[220px]">
-          {othersData.map((item, index) => (
-            <motion.a
-              key={index}
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: (index % 4) * 0.1 }}
-              className={`group relative overflow-hidden rounded-3xl bg-[var(--color-secondary)]/5 transition-all duration-700 ${getSpanClass(index)}`}
-            >
-              <div className="absolute inset-0 overflow-hidden">
-                <img
-                  src={item.img}
-                  alt={`Experiment ${index}`}
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 grayscale group-hover:grayscale-0"
-                />
-
-                <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-500" />
-
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-[2px]">
-                  <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <ArrowUpRight className="w-5 h-5 text-black" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <span className="text-[10px] font-black uppercase tracking-widest text-white drop-shadow-md">
-                  Lab_{index + 1}
-                </span>
-              </div>
-            </motion.a>
-          ))}
+        <div className="border-b border-[var(--color-border)] pb-2 mb-8 text-[10px] font-medium uppercase tracking-[0.3em] text-[var(--color-muted-foreground)]">
+          Classified Index
         </div>
+
+        <ul className="columns-1 md:columns-2 lg:columns-3 gap-8">
+          {othersData.map((item, index) => (
+            <li
+              key={index}
+              className="border border-[var(--color-border)] mb-8 break-inside-avoid bg-[var(--color-secondary)] hover:border-[var(--color-foreground)] transition-colors duration-500"
+            >
+              <a
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block"
+              >
+                <div className="aspect-[3/2] border-b border-[var(--color-border)] overflow-hidden">
+                  <img
+                    src={item.img}
+                    alt={`Experiment ${index}`}
+                    className="w-full h-full object-cover grayscale-[0.8] group-hover:grayscale-0 transition-all duration-700"
+                  />
+                </div>
+                <div className="p-4 flex justify-between items-center text-[var(--color-muted-foreground)] group-hover:text-[var(--color-foreground)] transition-colors">
+                  <span className="text-[10px] font-medium uppercase tracking-[0.2em]">
+                    Ad No.{String(index + 1).padStart(3, '0')}
+                  </span>
+                  <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} />
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )
