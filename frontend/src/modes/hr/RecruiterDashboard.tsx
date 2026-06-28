@@ -147,7 +147,7 @@ export default function RecruiterDashboard({ theme, toggleTheme, onBackToPersona
       id: 8,
       q: "What stack do you work fastest in?",
       quote: "Next.js, TypeScript, and PostgreSQL.",
-      a: "It allows me to build fast, type-safe API endpoints, handle queries efficiently, and render highly responsive UI modules with Tailwind CSS and Framer Motion. This is exactly the stack I used to build Swenetix systems."
+      a: "It allows me to build fast, type-safe API endpoints, handle queries efficiently, and render highly responsive UI modules with Tailwind CSS and Framer Motion. This is exactly the stack I used to build my biggest personal projects."
     },
     {
       id: 9,
