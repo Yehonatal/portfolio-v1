@@ -9,6 +9,7 @@ import type { Project } from '@/types/types'
 type ProjectDetailsModalProps = {
   activeProject: Project | null
   isMobile: boolean
+  variant?: 'modern' | 'terminal'
   activeProjectIndex: number
   totalProjectsCount: number
   onClose: () => void
@@ -19,22 +20,45 @@ type ProjectDetailsModalProps = {
 export default function ProjectDetailsModal({
   activeProject,
   isMobile,
+  variant,
   activeProjectIndex,
   totalProjectsCount,
   onClose,
   onPrev,
   onNext,
 }: ProjectDetailsModalProps) {
-  const [loadLive, setLoadLive] = useState(false)
+  const [loadLive, setLoadLive] = useState(variant === 'terminal' && !!activeProject?.liveLink)
   const [showWarning, setShowWarning] = useState(true)
   const [iframeKey, setIframeKey] = useState(0)
   const [activeImageIndex, setActiveImageIndex] = useState(0)
 
   useEffect(() => {
-    setLoadLive(false)
+    setLoadLive(variant === 'terminal' && !!activeProject?.liveLink)
     setActiveImageIndex(0)
     setShowWarning(true)
-  }, [activeProject?.id])
+  }, [activeProject?.id, variant])
+
+  useEffect(() => {
+    if (variant !== 'terminal' || !activeProject) return
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const key = e.key.toLowerCase()
+      if (e.key === 'Escape') {
+        onClose()
+      } else if (key === 'p' || e.key === 'ArrowLeft') {
+        onPrev()
+      } else if (key === 'n' || e.key === 'ArrowRight') {
+        onNext()
+      } else if (key === 'l' && activeProject.liveLink) {
+        window.open(activeProject.liveLink, '_blank')
+      } else if (key === 's' && activeProject.repoLink) {
+        window.open(activeProject.repoLink, '_blank')
+      }
+    }
+    
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [variant, activeProject, onClose, onPrev, onNext])
 
   if (!activeProject) return null
 
@@ -51,7 +75,7 @@ export default function ProjectDetailsModal({
   if (isMobile) {
     return (
       <AnimatePresence>
-        <div className="fixed inset-0 z-[140]">
+        <motion.div className="fixed inset-0 z-[140]">
           {/* Dim Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -231,7 +255,238 @@ export default function ProjectDetailsModal({
               </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
+      </AnimatePresence>
+    )
+  }
+
+  if (variant === 'terminal') {
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="fixed inset-0 z-[200] bg-black/85 backdrop-blur-xs flex items-center justify-center p-4 font-mono select-none"
+        >
+          {/* Laser scan line overlay */}
+          <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_97%,rgba(16,185,129,0.02))] z-10" />
+          
+          <motion.div
+            initial={{ scale: 0.95, y: 20 }}
+            animate={{ scale: 1, y: 0 }}
+            exit={{ scale: 0.95, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-[#050506] w-full max-w-[90vw] xl:max-w-7xl h-[88vh] max-h-[850px] rounded-lg border border-emerald-500/50 flex flex-col relative shadow-[0_0_40px_rgba(16,185,129,0.15)] overflow-hidden"
+          >
+            {/* Terminal Top Window Title Bar */}
+            <div className="h-10 bg-[#0f0f12] border-b border-emerald-500/20 flex items-center justify-between px-4 shrink-0 select-none text-[11px]">
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                </div>
+                <div className="h-4 w-px bg-zinc-800 mx-1.5" />
+                <span className="text-emerald-400 font-bold">kitty: server_host — diagnose_node://{activeProject.id}.spec</span>
+              </div>
+              <button
+                onClick={onClose}
+                className="text-zinc-500 hover:text-white transition-colors cursor-pointer text-[10px] font-bold"
+              >
+                [ESC] CLOSE_SESSION
+              </button>
+            </div>
+
+            {/* Content Area */}
+            <div className="flex-1 flex overflow-hidden p-4 gap-4 text-emerald-400 text-xs">
+              {/* Left Column - Screenshots and logs */}
+              <div className="flex-[3] flex flex-col gap-4 overflow-hidden">
+                {/* Simulated Monitor Box */}
+                <div className="flex-1 border border-dashed border-emerald-500/30 rounded p-3 flex flex-col bg-[#070708] relative overflow-hidden">
+                  <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold pb-2 border-b border-zinc-900 mb-2 flex justify-between select-none">
+                    <span>[ MONITOR DISPLAY ]</span>
+                    {activeProject.images && activeProject.images.length > 1 && (
+                      <span>SCREEN {activeImageIndex + 1} OF {activeProject.images.length}</span>
+                    )}
+                  </div>
+                  
+                  {/* Image/Iframe container */}
+                  <div className="flex-1 flex items-center justify-center relative overflow-hidden bg-black/40 rounded border border-zinc-900">
+                    {loadLive && activeProject.liveLink ? (
+                      <div className="w-full h-full flex flex-col">
+                        <div className="h-8 bg-zinc-950 border-b border-zinc-900 flex items-center justify-between px-3 select-none">
+                          <span className="text-[10px] text-zinc-500 truncate max-w-[60%] font-mono">
+                            curl --head {activeProject.liveLink}
+                          </span>
+                          <button onClick={() => setLoadLive(false)} className="px-2 py-0.5 bg-zinc-900 border border-zinc-800 rounded text-[9px] hover:text-white">
+                            Slides
+                          </button>
+                        </div>
+                        <iframe
+                          key={iframeKey}
+                          src={activeProject.liveLink}
+                          title={activeProject.title}
+                          className="w-full h-full border-0 bg-white"
+                          sandbox="allow-scripts allow-same-origin allow-popups"
+                        />
+                      </div>
+                    ) : (
+                      <>
+                        <img
+                          src={activeProject.images?.[activeImageIndex]}
+                          alt={activeProject.title}
+                          className="max-w-full max-h-full object-contain rounded brightness-90 hover:brightness-100 transition-all"
+                        />
+                        {activeProject.images && activeProject.images.length > 1 && (
+                          <>
+                            <button
+                              onClick={(e) => prevImage(e, activeProject.images.length)}
+                              className="absolute left-2 p-1 bg-zinc-900/80 border border-zinc-800 rounded text-emerald-400 hover:text-white"
+                            >
+                              &lt;
+                            </button>
+                            <button
+                              onClick={(e) => nextImage(e, activeProject.images.length)}
+                              className="absolute right-2 p-1 bg-zinc-900/80 border border-zinc-800 rounded text-emerald-400 hover:text-white"
+                            >
+                              &gt;
+                            </button>
+                          </>
+                        )}
+                        {activeProject.liveLink && (
+                          <button
+                            onClick={() => setLoadLive(true)}
+                            className="absolute bottom-3 px-3 py-1.5 bg-emerald-500 text-black text-[9px] font-bold uppercase tracking-wider rounded border border-emerald-400 hover:bg-emerald-400 transition-colors"
+                          >
+                            Interact Live
+                          </button>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Vite Compiler Logs Simulation Box */}
+                <div className="h-32 border border-dashed border-emerald-500/30 rounded p-3 bg-[#070708] flex flex-col text-[10px] select-text">
+                  <div className="text-zinc-500 uppercase tracking-widest font-bold pb-1.5 border-b border-zinc-900 mb-1.5">
+                    [ SERVER ENGINE LOGS ]
+                  </div>
+                  <div className="flex-1 overflow-auto text-zinc-400 space-y-0.5 pr-1 font-mono">
+                    <p className="text-zinc-500">[SYSTEM] Node {activeProject.id} integrity scan OK</p>
+                    <p className="text-emerald-500">➜ Local: http://localhost:3000/node/{activeProject.id}</p>
+                    <p className="text-zinc-500">➜ Network: use --host to expose connection</p>
+                    <p className="text-zinc-500">➜ lint: ESLint audit passed with 0 errors, 0 warnings</p>
+                    <p className="text-yellow-500">➜ coverage: 98.4% coverage (24 test modules verified)</p>
+                    <p className="text-zinc-500">➜ build: client bundle output size 148kB gzip</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column - Spec Details */}
+              <div className="flex-[2] flex flex-col gap-4 overflow-y-auto">
+                {/* Identification Section */}
+                <div className="border border-dashed border-emerald-500/30 rounded p-4 bg-[#070708] flex flex-col gap-2.5">
+                  <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold pb-1.5 border-b border-zinc-900">
+                    [ MAN PAGE: INDEX ]
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="text-base font-bold text-white tracking-tight">{activeProject.title}</h3>
+                    <div className="flex gap-4 text-[10px] text-zinc-500">
+                      <span>CAT: {activeProject.category}</span>
+                      <span>DATE: {activeProject.date.split('-')[0]}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="text-[11px] text-zinc-300 leading-relaxed space-y-2 select-text">
+                    <span className="block text-[8px] text-zinc-500 uppercase font-bold tracking-wider">// SYNOPSIS</span>
+                    <p className="bg-zinc-950/40 p-2.5 border border-zinc-900 rounded whitespace-pre-wrap">
+                      {activeProject.description}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Integration Matrix (Dependencies Tree) */}
+                <div className="border border-dashed border-emerald-500/30 rounded p-4 bg-[#070708] flex flex-col gap-2.5">
+                  <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold pb-1.5 border-b border-zinc-900">
+                    [ ECOSYSTEM INTEGRITY ]
+                  </div>
+                  <div className="text-[10px] text-zinc-400 select-text font-mono space-y-0.5 pl-1">
+                    <p className="text-zinc-600">dependencies:</p>
+                    {activeProject.techUsed.map((tech, idx) => {
+                      const isLast = idx === activeProject.techUsed.length - 1
+                      return (
+                        <p key={tech} className="flex gap-2">
+                          <span className="text-zinc-600">{isLast ? '└──' : '├──'}</span>
+                          <span className="text-emerald-400 font-bold">{tech.toLowerCase()}</span>
+                          <span className="text-zinc-600">@latest</span>
+                        </p>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Operations / Shortcuts Panel */}
+                <div className="border border-dashed border-emerald-500/30 rounded p-4 bg-[#070708] flex flex-col gap-3">
+                  <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold pb-1.5 border-b border-zinc-900">
+                    [ OPERATIONS & SHORTCUTS ]
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    {activeProject.liveLink && (
+                      <a
+                        href={activeProject.liveLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="py-2 border border-emerald-500/40 rounded hover:bg-emerald-500 hover:text-black hover:border-emerald-500 text-center transition-all font-bold text-xs"
+                      >
+                        [ L ] DEPLOYMENT URL &rarr;
+                      </a>
+                    )}
+                    {activeProject.repoLink && (
+                      <a
+                        href={activeProject.repoLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="py-2 border border-zinc-800 rounded hover:border-emerald-500/80 hover:text-emerald-300 text-center transition-all text-zinc-400 text-xs"
+                      >
+                        [ S ] SOURCE REPOSITORY &rarr;
+                      </a>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 mt-1">
+                    <button
+                      onClick={onPrev}
+                      className="py-1.5 border border-zinc-800 rounded hover:border-zinc-700 hover:text-white transition-colors cursor-pointer text-center text-[10px]"
+                    >
+                      [ P ] PREVIOUS
+                    </button>
+                    <button
+                      onClick={onNext}
+                      className="py-1.5 border border-zinc-800 rounded hover:border-zinc-700 hover:text-white transition-colors cursor-pointer text-center text-[10px]"
+                    >
+                      [ N ] NEXT NODE
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom mini status bar */}
+            <div className="h-6 bg-[#0f0f12] border-t border-emerald-500/20 text-[9px] text-zinc-500 px-4 flex items-center justify-between shrink-0 select-none">
+              <div className="flex items-center gap-3">
+                <span className="text-emerald-500 font-bold">STATUS: INSPECTING</span>
+                <span>NODE_INDEX: {activeProjectIndex + 1}/{totalProjectsCount}</span>
+              </div>
+              <div className="flex items-center gap-4">
+                <span>BUFFER: UTF-8</span>
+                <span>KEYBOARD: ARROWS/P/N/L/S/ESC</span>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
       </AnimatePresence>
     )
   }

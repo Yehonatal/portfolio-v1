@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Download, MapPin, BookOpen, Briefcase, ArrowUpRight, 
-  CheckCircle2, HelpCircle, ChevronRight, Building, Check,
-  Sun, Moon, ShieldAlert, Cpu, Award
+  Download, MapPin, CheckCircle2, Sun, Moon
 } from 'lucide-react'
-import AnimatedNumber from './AnimatedNumber'
+import AnimatedNumber from '../../components/AnimatedNumber'
 
 type RecruiterDashboardProps = {
   theme: 'light' | 'dark'

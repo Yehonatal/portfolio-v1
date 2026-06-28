@@ -15,8 +15,8 @@ import { createFileRoute, useNavigate, Link } from '@tanstack/react-router'
 import MobileApp from '@/components/MobileApp'
 import ProjectDetailsModal from '@/components/ProjectDetailsModal'
 import Footer from '@/components/Footer'
-import EngineerTerminal from '@/components/EngineerTerminal'
-import RecruiterDashboard from '@/components/RecruiterDashboard'
+import EngineerTerminal from '@/modes/engineer/EngineerTerminal'
+import RecruiterDashboard from '@/modes/hr/RecruiterDashboard'
 import InteractiveStage from '@/components/InteractiveStage'
 import VisitorMode from '@/modes/visitor/VisitorMode'
 
@@ -591,6 +591,7 @@ function App() {
             <ProjectDetailsModal
               activeProject={activeProject as any}
               isMobile={false}
+              variant="terminal"
               activeProjectIndex={activeProjectIndex}
               totalProjectsCount={filteredProjects.length}
               onClose={() => navigate({ search: { project: undefined } })}
