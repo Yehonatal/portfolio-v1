@@ -50,7 +50,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body suppressHydrationWarning>
+
         {hydrated ? (
           <>
             <Navbar />
@@ -61,17 +62,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <Loading />
         )}
 
-        {/* <TanstackDevtools
-          config={{
-            position: 'bottom-left',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        /> */}
         <Scripts />
       </body>
     </html>

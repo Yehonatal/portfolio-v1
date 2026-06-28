@@ -1,27 +1,52 @@
-import { Moon, Sun, Menu, X } from 'lucide-react'
-import { Link, useLocation } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
-import AdRibbon from './AdRibbon'
+import { Link, useRouter } from '@tanstack/react-router'
+import { Sun, Moon, ArrowUpRight, Github, Mail, Linkedin } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+
+const navLinks = [
+  { id: 'about', label: 'about' },
+  { id: 'projects', label: 'projects' },
+  { id: 'skills', label: 'skills' },
+  { id: 'writing', label: 'writing' },
+  { id: 'contact', label: 'contact' },
+]
 
 const Navbar = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light')
-  const [isOpen, setIsOpen] = useState(false)
-  const location = useLocation()
+  const router = useRouter()
+  const [activeSection, setActiveSection] = useState('about')
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
+  // Sync isMobile
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)')
-      .matches
-      ? 'dark'
-      : 'light'
-    const initialTheme = savedTheme || systemTheme
-    setTheme(initialTheme)
-    document.documentElement.classList.toggle('dark', initialTheme === 'dark')
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkIsMobile()
+    window.addEventListener('resize', checkIsMobile)
+    return () => window.removeEventListener('resize', checkIsMobile)
   }, [])
 
-  // Lock scroll when overlay is open
+  // Sync theme
   useEffect(() => {
-    if (isOpen) {
+    const isDark = document.documentElement.classList.contains('dark')
+    setTheme(isDark ? 'dark' : 'light')
+  }, [])
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(newTheme)
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }
+
+  // Lock scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
@@ -29,178 +54,262 @@ const Navbar = () => {
     return () => {
       document.body.style.overflow = ''
     }
-  }, [isOpen])
+  }, [mobileMenuOpen])
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light'
-    setTheme(newTheme)
-    localStorage.setItem('theme', newTheme)
-    document.documentElement.classList.toggle('dark', newTheme === 'dark')
+  // Scroll spy
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0,
+    }
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+
+    navLinks.forEach((link) => {
+      const el = document.getElementById(link.id)
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  // Smooth scroll
+  const handleNavClick = (id: string) => {
+    setMobileMenuOpen(false)
+    
+    if (window.location.pathname !== '/') {
+      router.navigate({ to: '/', hash: id })
+      return
+    }
+
+    const element = document.getElementById(id)
+    if (element) {
+      const topOffset = element.getBoundingClientRect().top + window.pageYOffset - 80
+      window.scrollTo({
+        top: topOffset,
+        behavior: 'smooth',
+      })
+    }
   }
 
-  const getPageTitle = () => {
-    const path = location.pathname
-    if (path === '/') return 'Front Page'
-    if (path.startsWith('/projects')) return 'The Archive'
-    if (path.startsWith('/blogs')) return 'The Journal'
-    return 'Digital Experiences'
-  }
+  if (isMobile) return null
 
   return (
-    <div className="bg-[var(--color-background)]">
-      <AdRibbon />
-
-      {/* Masthead */}
-      <div className="max-w-6xl mx-auto px-6 py-10 text-center text-[var(--color-foreground)] relative">
-        <button
-          onClick={toggleTheme}
-          className="absolute right-6 top-8 hidden sm:flex items-center gap-2 text-xs font-medium tracking-widest text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors uppercase cursor-pointer"
-          aria-label="Toggle theme"
+    <>
+      <header className="fixed left-8 xl:left-[calc(50vw-33rem)] top-24 z-50 w-44 hidden md:flex flex-col gap-10 bg-transparent border-none">
+      {/* Branding */}
+      <div className="space-y-1">
+        <Link
+          to="/"
+          onClick={() => handleNavClick('about')}
+          className="focus:outline-none cursor-pointer group block"
         >
-          {theme === 'light' ? (
-            <Moon className="w-4 h-4" strokeWidth={1.5} />
-          ) : (
-            <Sun className="w-4 h-4" strokeWidth={1.5} />
-          )}
-        </button>
-
-        <Link to="/" className="inline-block group">
-          <h1 className="text-5xl md:text-7xl font-serif tracking-tight uppercase text-[var(--color-foreground)]">
-            Yonatan Afewerk
-          </h1>
+          <span className="font-display font-black text-sm tracking-[0.08em] uppercase text-[var(--color-foreground)] block">
+            yonatan.
+          </span>
         </Link>
-        <div className="mt-4 flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-xs sm:text-sm font-serif italic text-[var(--color-muted-foreground)] tracking-wide">
-          <span>Building Digital Experiences</span>
-          <span className="text-[var(--color-border)]">|</span>
-          <span>Crafter of Code</span>
-          <span className="text-[var(--color-border)]">|</span>
-          <span>Problem Solver</span>
-        </div>
+        <span className="block text-[8px] font-mono font-bold uppercase tracking-wider text-[var(--color-primary)]">
+          Full Stack Engineer
+        </span>
       </div>
 
-      {/* Navigation */}
-      <nav className="sticky top-0 z-[100] bg-[var(--color-background)]/90 backdrop-blur-sm border-y border-[var(--color-border)]">
-        {/* Desktop and Mobile Container */}
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between md:justify-center relative">
-          
-          {/* Desktop Links (Centered via justify-center above) */}
-          <div className="hidden md:flex items-center justify-center gap-10 w-full">
-            <Link
-              to="/"
-              className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors [&.active]:text-[var(--color-foreground)]"
-            >
-              Front Page
-            </Link>
-            <Link
-              to="/projects"
-              className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors [&.active]:text-[var(--color-foreground)]"
-            >
-              Projects
-            </Link>
-            <Link
-              to="/blogs"
-              className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors [&.active]:text-[var(--color-foreground)]"
-            >
-              Journal
-            </Link>
-          </div>
-
-          {/* Desktop Github Link (Absolute right) */}
-          <div className="hidden md:flex absolute right-6 items-center">
-            <a
-              href="https://github.com/Yehonatal"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors"
-            >
-              Github
-            </a>
-          </div>
-
-          {/* Mobile Header (Theme + Menu Toggle) */}
-          <div className="flex md:hidden w-full items-center justify-between">
+      {/* Navigation Links - Vertical List */}
+      <nav className="flex flex-col items-start gap-4">
+        {navLinks.map((link, idx) => {
+          const isActive = activeSection === link.id
+          return (
             <button
-              onClick={toggleTheme}
-              className="flex items-center gap-2 text-xs font-medium tracking-widest text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors uppercase cursor-pointer"
-              aria-label="Toggle theme"
+              key={link.id}
+              onClick={() => handleNavClick(link.id)}
+              className="flex items-center gap-3 group focus:outline-none cursor-pointer py-1"
             >
-              {theme === 'light' ? (
-                <Moon className="w-4 h-4" strokeWidth={1.5} />
-              ) : (
-                <Sun className="w-4 h-4" strokeWidth={1.5} />
-              )}
+              {/* Fine number index */}
+              <span className={`text-[8px] font-mono tracking-widest transition-colors ${
+                isActive ? 'text-[var(--color-primary)] font-bold' : 'text-[var(--color-muted-foreground)]/50 group-hover:text-[var(--color-foreground)]'
+              }`}>
+                {String(idx + 1).padStart(2, '0')}
+              </span>
+              <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${
+                isActive
+                  ? 'text-[var(--color-foreground)] border-b border-[var(--color-primary)]'
+                  : 'text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)]'
+              }`}>
+                {link.label}
+              </span>
             </button>
-            <span className="text-xs font-serif italic text-[var(--color-foreground)] font-bold uppercase tracking-widest">
-              {getPageTitle()}
-            </span>
-            <button
-              onClick={() => setIsOpen(true)}
-              className="p-1 text-[var(--color-foreground)] hover:bg-[var(--color-foreground)] hover:text-[var(--color-background)] transition-colors border border-transparent hover:border-[var(--color-border)] cursor-pointer"
-            >
-              <Menu className="w-5 h-5" strokeWidth={1.5} />
-            </button>
-          </div>
-        </div>
+          )
+        })}
       </nav>
 
-      {/* Screen-Filling Mobile Overlay Menu */}
-      {isOpen && (
-        <div className="fixed inset-0 z-[200] bg-[var(--color-background)] flex flex-col md:hidden animate-in fade-in zoom-in-95 duration-300">
-          
-          {/* Overlay Header */}
-          <div className="px-6 py-4 flex items-center justify-between border-b border-[var(--color-border)]">
-            <span className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-foreground)]">
-              Index
+      {/* Theme Switcher & Status */}
+      <div className="space-y-5 pt-5 border-t border-[var(--color-border)]/15">
+        {/* Availability Status */}
+        <div className="space-y-1">
+          <span className="block text-[7px] font-mono font-bold uppercase tracking-widest text-[var(--color-muted-foreground)]">
+            Status
+          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
             </span>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="p-1 bg-[var(--color-foreground)] text-[var(--color-background)] hover:bg-[var(--color-background)] hover:text-[var(--color-foreground)] transition-colors border border-[var(--color-foreground)] hover:border-[var(--color-border)] cursor-pointer"
-            >
-              <X className="w-6 h-6" strokeWidth={1.5} />
-            </button>
-          </div>
-
-          {/* Overlay Links */}
-          <div className="flex-1 flex flex-col justify-center px-6">
-            <div className="flex flex-col space-y-2 border-y border-[var(--color-border)] divide-y divide-[var(--color-border)]">
-              <Link
-                to="/"
-                onClick={() => setIsOpen(false)}
-                className="py-8 text-2xl font-serif uppercase tracking-widest text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] hover:pl-4 transition-all duration-300 [&.active]:text-[var(--color-foreground)] [&.active]:italic"
-              >
-                Front Page
-              </Link>
-              <Link
-                to="/projects"
-                onClick={() => setIsOpen(false)}
-                className="py-8 text-2xl font-serif uppercase tracking-widest text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] hover:pl-4 transition-all duration-300 [&.active]:text-[var(--color-foreground)] [&.active]:italic"
-              >
-                The Archive
-              </Link>
-              <Link
-                to="/blogs"
-                onClick={() => setIsOpen(false)}
-                className="py-8 text-2xl font-serif uppercase tracking-widest text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] hover:pl-4 transition-all duration-300 [&.active]:text-[var(--color-foreground)] [&.active]:italic"
-              >
-                Journal
-              </Link>
-            </div>
-
-            <div className="mt-12 flex justify-between items-center text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)]">
-              <span>External</span>
-              <a
-                href="https://github.com/Yehonatal"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[var(--color-foreground)] hover:underline decoration-[var(--color-border)] underline-offset-4 transition-all"
-              >
-                Github
-              </a>
-            </div>
+            <span className="text-[8px] font-bold uppercase tracking-wider text-emerald-500">
+              Open to work
+            </span>
           </div>
         </div>
+
+        {/* Minimalist Theme Switcher */}
+        <div className="flex items-center justify-between">
+          <button
+            onClick={toggleTheme}
+            className="p-1 text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors focus:outline-none cursor-pointer flex items-center gap-2"
+            aria-label="Toggle Theme"
+          >
+            <span className="flex items-center shrink-0">
+              {theme === 'dark' ? <Sun size={12} strokeWidth={2} /> : <Moon size={12} strokeWidth={2} />}
+            </span>
+            <span className="text-[8px] font-mono font-bold uppercase tracking-wider leading-none select-none">
+              {theme === 'dark' ? 'Light' : 'Dark'}
+            </span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+      {/* Fullscreen Mobile Menu Overlay */}
+      {!isMobile && (
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="fixed inset-0 z-100 bg-[var(--color-background)] flex flex-col justify-between p-8 pt-24 md:hidden"
+            >
+              {/* Subtle background tech grid layout overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none opacity-60" />
+
+              {/* Menu Items with Staggered Entrance */}
+              <motion.nav
+                initial="hidden"
+                animate="show"
+                variants={{
+                  hidden: { opacity: 0 },
+                  show: {
+                    opacity: 1,
+                    transition: { staggerChildren: 0.08, delayChildren: 0.1 }
+                  }
+                }}
+                className="flex flex-col gap-6"
+              >
+                {navLinks.map((link, idx) => {
+                  const isActive = activeSection === link.id
+                  return (
+                    <motion.div
+                      key={link.id}
+                      variants={{
+                        hidden: { opacity: 0, x: -30 },
+                        show: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 90, damping: 15 } }
+                      }}
+                      className="group"
+                    >
+                      <button
+                        onClick={() => handleNavClick(link.id)}
+                        className="flex items-baseline gap-4 focus:outline-none cursor-pointer text-left"
+                      >
+                        <span className="font-mono text-[10px] font-bold text-[var(--color-muted-foreground)] tracking-widest">
+                          0{idx + 1}.
+                        </span>
+                        <span className={`font-display text-4xl font-extrabold uppercase tracking-tight relative transition-all duration-300 group-hover:pl-2 ${
+                          isActive 
+                            ? 'text-[var(--color-foreground)]' 
+                            : 'text-[var(--color-muted-foreground)]/70 hover:text-[var(--color-foreground)]'
+                        }`}>
+                          {link.label}
+                          {isActive && (
+                            <span className="absolute left-0 bottom-1 w-full h-[3px] bg-[var(--color-primary)] -z-10 opacity-45" />
+                          )}
+                        </span>
+                      </button>
+                    </motion.div>
+                  )
+                })}
+              </motion.nav>
+
+              {/* Bottom Section - Social Links and Location/Status */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.4 }}
+                className="border-t border-[var(--color-border)]/60 pt-8 flex flex-col gap-6"
+              >
+                {/* Location and Status Ticker */}
+                <div className="flex flex-col gap-2">
+                  <span className="text-[8px] font-bold uppercase tracking-widest text-[var(--color-muted-foreground)]">
+                    Availability
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-500">
+                      Open for select freelance projects
+                    </span>
+                  </div>
+                </div>
+
+                {/* Social Icons row */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-5">
+                    <a
+                      href="https://github.com/yehonal"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2.5 rounded-full border border-[var(--color-border)]/60 hover:bg-[var(--color-secondary)] transition-colors text-[var(--color-foreground)]"
+                      aria-label="GitHub"
+                    >
+                      <Github size={14} />
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/in/yonatan-afewerk/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2.5 rounded-full border border-[var(--color-border)]/60 hover:bg-[var(--color-secondary)] transition-colors text-[var(--color-foreground)]"
+                      aria-label="LinkedIn"
+                    >
+                      <Linkedin size={14} />
+                    </a>
+                    <a
+                      href="mailto:yonatan.afewerk.work@gmail.com"
+                      className="p-2.5 rounded-full border border-[var(--color-border)]/60 hover:bg-[var(--color-secondary)] transition-colors text-[var(--color-foreground)]"
+                      aria-label="Email"
+                    >
+                      <Mail size={14} />
+                    </a>
+                  </div>
+
+                  <span className="text-[9px] font-mono text-[var(--color-muted-foreground)]">
+                    © 2026 / ADDIS ABABA
+                  </span>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       )}
-    </div>
+    </>
   )
 }
 

@@ -80,24 +80,34 @@ export const categories = [
   },
 ]
 
-const TechCard = ({ cat }: { cat: (typeof categories)[0] }) => {
+const TechRow = ({ cat }: { cat: (typeof categories)[0] }) => {
   return (
-    <div className="flex flex-col h-full border border-[var(--color-border)] bg-[var(--color-background)] pb-6 hover:bg-[var(--color-secondary)] transition-colors duration-500">
-      <div className="border-b border-[var(--color-border)] p-4 flex items-center justify-between text-[var(--color-muted-foreground)]">
-        <h4 className="text-xs font-medium uppercase tracking-[0.2em] shrink-0">
-          {cat.name}
-        </h4>
-        <div className="shrink-0">{cat.icon}</div>
+    <div className="flex flex-col md:flex-row gap-6 md:gap-12 py-8 border-b border-[var(--color-border)]/15 group">
+      {/* Category Identity */}
+      <div className="md:w-1/4 flex items-center md:items-start gap-3 shrink-0">
+        <div className="p-2 rounded-xl bg-[var(--color-secondary)]/50 text-[var(--color-muted-foreground)] group-hover:text-[var(--color-primary)] transition-colors">
+          {cat.icon}
+        </div>
+        <div className="space-y-0.5">
+          <h4 className="text-sm font-bold uppercase tracking-widest text-[var(--color-foreground)] font-display">
+            {cat.name}
+          </h4>
+          <span className="block text-[8px] font-mono font-bold uppercase tracking-wider text-[var(--color-muted-foreground)]">
+            Capability Directory
+          </span>
+        </div>
       </div>
-      <div className="p-5 flex-grow flex flex-col gap-5">
-        <p className="text-sm font-light leading-relaxed text-[var(--color-muted-foreground)]">
+
+      {/* Description & Skill Tags */}
+      <div className="flex-1 space-y-4">
+        <p className="text-sm text-[var(--color-muted-foreground)] font-light leading-relaxed">
           {cat.description}
         </p>
-        <div className="flex flex-wrap gap-2 pt-2">
+        <div className="flex flex-wrap gap-1.5">
           {cat.tech.map((tech) => (
             <span
               key={tech}
-              className="text-[10px] font-medium uppercase tracking-[0.1em] text-[var(--color-foreground)] border border-[var(--color-border)] px-2 py-1 hover:bg-[var(--color-foreground)] hover:text-[var(--color-background)] transition-colors duration-300 cursor-default"
+              className="text-[10px] font-mono font-semibold uppercase tracking-[0.05em] text-[var(--color-foreground)] bg-[var(--color-secondary)] px-2.5 py-1 rounded hover:bg-[var(--color-primary)] hover:text-[var(--color-primary-foreground)] transition-colors duration-250 cursor-default"
             >
               {tech}
             </span>
@@ -110,25 +120,27 @@ const TechCard = ({ cat }: { cat: (typeof categories)[0] }) => {
 
 const TechStack = () => {
   return (
-    <section className="py-16 border-t border-[var(--color-border)]">
+    <section id="skills" className="py-20 max-w-4xl mx-auto px-6 border-b border-[var(--color-border)]/15">
       <div className="space-y-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[var(--color-border)] pb-6">
-          <div className="space-y-4">
-            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)]">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[var(--color-border)]/15 pb-6">
+          <div className="space-y-2">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--color-muted-foreground)]">
               Technical Index
             </span>
-            <h2 className="text-4xl md:text-5xl font-serif tracking-tight text-[var(--color-foreground)]">
+            <h2 className="text-3xl md:text-4xl font-bold font-display tracking-tight text-[var(--color-foreground)]">
               Skills & Tools
             </h2>
           </div>
-          <div className="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)]">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--color-muted-foreground)] bg-[var(--color-secondary)]/50 px-3 py-1 rounded-full">
             Full Stack Profile
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Structured Listing */}
+        <div className="flex flex-col">
           {categories.map((cat) => (
-            <TechCard key={cat.name} cat={cat} />
+            <TechRow key={cat.name} cat={cat} />
           ))}
         </div>
       </div>

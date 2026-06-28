@@ -1,124 +1,207 @@
-import TechStack from './TechStack'
-import EducationSection from './Education'
+import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { ArrowUpRight, Mail, FileText, Clock, Calendar as CalendarIcon } from 'lucide-react'
+
+const toGeezNumeral = (num: number): string => {
+  const geezUnits = ["", "፩", "፪", "፫", "፬", "፭", "፮", "፯", "፰", "፱"]
+  const geezTens = ["", "፲", "፳", "፴", "፵", "፶", "፷", "፸", "፹", "፺"]
+  if (num === 0) return ""
+  if (num < 10) return geezUnits[num]
+  const tens = Math.floor(num / 10)
+  const units = num % 10
+  return geezTens[tens] + geezUnits[units]
+}
+
+const getEthiopianDate = (date: Date) => {
+  const gy = date.getFullYear()
+  const gm = date.getMonth()
+  const gd = date.getDate()
+  let ey = gy - 8
+  let em = 0
+  let ed = 0
+  const isLeap = (gy % 4 === 0)
+  const newYearDay = isLeap ? 12 : 11
+  const d = gd
+  const m = gm + 1
+  if (m === 9) {
+    if (d >= newYearDay) { ey = gy - 7; em = 1; ed = d - (newYearDay - 1); }
+    else { em = 13; ed = d + (30 - (newYearDay - 1)); }
+  } else if (m === 10) {
+    if (d >= 11) { ey = gy - 7; em = 2; ed = d - 10; }
+    else { em = 1; ed = d + 20; }
+  } else if (m === 11) {
+    if (d >= 10) { ey = gy - 7; em = 3; ed = d - 9; }
+    else { em = 2; ed = d + 21; }
+  } else if (m === 12) {
+    if (d >= 10) { ey = gy - 7; em = 4; ed = d - 9; }
+    else { em = 3; ed = d + 21; }
+  } else if (m === 1) {
+    if (d >= 9) { ey = gy - 7; em = 5; ed = d - 8; }
+    else { em = 4; ed = d + 22; }
+  } else if (m === 2) {
+    if (d >= 8) { ey = gy - 7; em = 6; ed = d - 7; }
+    else { em = 5; ed = d + 23; }
+  } else if (m === 3) {
+    if (d >= 10) { ey = gy - 7; em = 7; ed = d - 9; }
+    else { em = 6; ed = d + 21; }
+  } else if (m === 4) {
+    if (d >= 9) { ey = gy - 7; em = 8; ed = d - 8; }
+    else { em = 7; ed = d + 22; }
+  } else if (m === 5) {
+    if (d >= 9) { ey = gy - 7; em = 9; ed = d - 8; }
+    else { em = 8; ed = d + 22; }
+  } else if (m === 6) {
+    if (d >= 8) { ey = gy - 7; em = 10; ed = d - 7; }
+    else { em = 9; ed = d + 23; }
+  } else if (m === 7) {
+    if (d >= 8) { ey = gy - 7; em = 11; ed = d - 7; }
+    else { em = 10; ed = d + 23; }
+  } else if (m === 8) {
+    if (d >= 7) { ey = gy - 7; em = 12; ed = d - 6; }
+    else { em = 11; ed = d + 24; }
+  }
+  const monthNames = [
+    "", "Meskerem", "Tikimt", "Hidar", "Tahsas", "Ter", "Yakatit",
+    "Megabit", "Miyazya", "Ginbot", "Sene", "Hamle", "Nehase", "Pagume"
+  ]
+  return `${monthNames[em]} ${toGeezNumeral(ed)} (${ed}), ${ey} E.C.`
+}
 
 type HeroProp = {
   name?: string
   title?: string
-  contact?: string
   description?: string
 }
 
 const Hero = ({
   name = 'Yonatan Afewerk',
-  title = 'Open to Remote | Part-Time | Full-Time',
-  description = 'Building is my passion, and programming is how I turn ideas into reality. From crafting sleek interfaces to tackling tricky problems, I love seeing projects come to life one line of code at a time.',
+  title = 'Software Engineer',
+  description = 'I specialize in crafting high-performance, responsive web applications with clean architecture. From designing immersive interfaces to writing highly scalable backend systems, I build digital products that are simple, fast, and delightful to use.',
 }: HeroProp) => {
+  const [localTime, setLocalTime] = useState('')
+
+  useEffect(() => {
+    const updateTime = () => {
+      const options: Intl.DateTimeFormatOptions = {
+        timeZone: 'Africa/Addis_Ababa',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }
+      setLocalTime(new Date().toLocaleTimeString('en-US', options))
+    }
+    updateTime()
+    const interval = setInterval(updateTime, 1000)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
-    <section className="relative pb-16 md:pb-24 max-w-6xl mx-auto px-6 bg-[var(--color-background)]">
-      <div className="grid lg:grid-cols-[2.5fr_1fr] gap-12 lg:gap-16 pt-8">
-        {/* Main Article Section */}
+    <section id="about" className="py-24 md:py-32 max-w-4xl mx-auto px-6 border-b border-[var(--color-border)]/15">
+      <div className="flex flex-col-reverse md:flex-row items-center md:items-start justify-between gap-12 md:gap-16">
+        
+        {/* Bio Text */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex-1 space-y-8 text-center md:text-left"
         >
-          <div className="space-y-8">
-            <div className="flex justify-between items-center border-b border-[var(--color-border)] pb-4">
-              <span className="text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)]">
-                Exclusive Feature
-              </span>
-              <span className="text-sm font-serif italic text-[var(--color-muted-foreground)]">
-                By Our Technology Correspondent
-              </span>
+          <div className="space-y-3">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.25em] text-[var(--color-primary)]">
+              {title}
+            </span>
+            <h1 className="text-4xl md:text-6xl font-black font-display tracking-tight text-[var(--color-foreground)] leading-none">
+              {name}
+            </h1>
+          </div>
+
+          <p className="text-base md:text-lg leading-relaxed text-[var(--color-muted-foreground)] font-light max-w-xl">
+            {description}
+          </p>
+
+          {/* Minimalist actions */}
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-2">
+            <motion.a
+              href="https://drive.google.com/file/d/1lFQogpWl42L-UE5DvY_40laKmA_0sXlf/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--color-primary)] text-[var(--color-primary-foreground)] text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity"
+            >
+              <FileText className="w-4 h-4" />
+              View Resume
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </motion.a>
+            
+            <motion.a
+              href="mailto:yonatanafewerk@gmail.com"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--color-secondary)] text-[var(--color-foreground)] text-xs font-bold uppercase tracking-wider hover:bg-[var(--color-secondary)]/80 transition-colors"
+            >
+              <Mail className="w-4 h-4" />
+              Get In Touch
+            </motion.a>
+          </div>
+        </motion.div>
+
+        {/* Headshot & Live Metadata Column */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="w-48 md:w-60 shrink-0 space-y-6 flex flex-col items-center md:items-stretch"
+        >
+          {/* Flat Headshot */}
+          <div className="w-44 h-44 md:w-52 md:h-52 rounded-full bg-[var(--color-secondary)]/50 overflow-hidden group relative">
+            {/* Soft backdrop circle */}
+            <div className="absolute inset-0 bg-[var(--color-primary)]/10 rounded-full flex items-center justify-center">
+              <svg className="w-full h-full stroke-[var(--color-primary)]/20 fill-none opacity-20" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="44" strokeWidth="1" />
+                <path d="M 0 50 Q 50 15 100 50" strokeWidth="1" />
+              </svg>
+            </div>
+            
+            <img
+              src="/me.jpg"
+              alt="Yonatan Afewerk"
+              className="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover grayscale hover:grayscale-0 hover:scale-105 transition-all duration-700 ease-out absolute inset-0 m-auto z-10"
+            />
+          </div>
+
+          {/* Typographic widgets - Flat Column */}
+          <div className="w-full text-left hidden md:block space-y-4 pt-2 border-t border-[var(--color-border)]/15">
+            <div className="flex justify-between items-start">
+              <div className="space-y-0.5">
+                <span className="block text-[8px] font-mono font-bold uppercase tracking-widest text-[var(--color-muted-foreground)]">
+                  Addis Ababa, ET
+                </span>
+                <span className="block text-sm font-bold font-mono tracking-tight text-[var(--color-foreground)]">
+                  {localTime || '15:42:00'}
+                </span>
+              </div>
+              <div className="p-1 rounded-md bg-[var(--color-secondary)] text-[var(--color-primary)]">
+                <Clock size={12} />
+              </div>
             </div>
 
-            <h2 className="text-5xl md:text-7xl font-serif tracking-tight leading-[1.05] text-[var(--color-foreground)]">
-              Software Engineer Breaks New Grounds in Web Development
-            </h2>
-
-            <div className="grid md:grid-cols-2 gap-10 pt-6">
-              <div className="space-y-6">
-                <p className="text-xl leading-relaxed font-serif italic border-l px-6 border-[var(--color-border)] text-[var(--color-muted-foreground)]">
-                  "It's not just about making things work, but how eloquently they work together," he states.
-                </p>
-                <div className="text-sm leading-loose text-[var(--color-foreground)] text-justify font-light">
-                  <span className="drop-cap">I</span>n a world rapidly shifting towards modular and performant web spaces, the focus has shifted entirely onto crafting scalable applications. Yonatan, an ambitious software engineer, is currently redefining what modern web applications look like and how they perform. With a keen eye for aesthetics and a rigorous engineering process, he merges the gap between design and robust functionality.
-                </div>
+            <div className="flex justify-between items-start">
+              <div className="space-y-0.5">
+                <span className="block text-[8px] font-mono font-bold uppercase tracking-widest text-[var(--color-muted-foreground)]">
+                  Ethiopic Date
+                </span>
+                <span className="block text-xs font-semibold tracking-tight text-[var(--color-foreground)]">
+                  {getEthiopianDate(new Date())}
+                </span>
               </div>
-              <div className="space-y-8">
-                <div className="text-sm leading-loose text-[var(--color-foreground)] text-justify font-light">
-                  {description}
-                  <div className="mt-8 border-t border-[var(--color-border)] pt-4 flex justify-between items-center">
-                     <span className="text-xs uppercase tracking-widest text-[var(--color-muted-foreground)] font-medium">Special Report</span>
-                     <span className="text-xs uppercase tracking-widest text-[var(--color-foreground)] font-medium">{name}</span>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-4 pt-2">
-                  <motion.a
-                    href="https://drive.google.com/file/d/1lFQogpWl42L-UE5DvY_40laKmA_0sXlf/view?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ opacity: 0.8 }}
-                    className="px-6 py-3 border border-[var(--color-foreground)] text-xs font-medium uppercase tracking-[0.2em] bg-[var(--color-foreground)] text-[var(--color-background)] transition-colors"
-                  >
-                    Read Resume
-                  </motion.a>
-                  <a
-                    href="mailto:yonatanafewerk@gmail.com"
-                    className="px-6 py-3 border border-[var(--color-border)] text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-foreground)] hover:border-[var(--color-foreground)] transition-colors"
-                  >
-                    Contact Editor
-                  </a>
-                </div>
+              <div className="p-1 rounded-md bg-[var(--color-secondary)] text-[var(--color-primary)]">
+                <CalendarIcon size={12} />
               </div>
             </div>
           </div>
         </motion.div>
-
-        {/* Sidebar Section */}
-        <aside className="space-y-10 border-t lg:border-t-0 lg:border-l border-[var(--color-border)] pt-10 lg:pt-0 lg:pl-10">
-          <div className="space-y-3">
-             <div className="border border-[var(--color-border)] p-1">
-                <img
-                  src="/me.jpg"
-                  alt="Yonatan Afewerk"
-                  className="w-full h-auto object-cover grayscale opacity-90 hover:opacity-100 transition-opacity"
-                />
-             </div>
-             <p className="text-[10px] text-center uppercase tracking-widest text-[var(--color-muted-foreground)]">
-                Fig 1.0 — The Engineer at Work (Circa 2024)
-             </p>
-          </div>
-
-          <div className="pt-8 border-t border-[var(--color-border)]">
-            <h3 className="text-xs font-serif italic text-center mb-6 text-[var(--color-muted-foreground)]">
-              Curriculum Vitae
-            </h3>
-            <EducationSection />
-          </div>
-
-          <div className="pt-8 border-t border-[var(--color-border)]">
-            <h3 className="text-[10px] font-medium uppercase tracking-[0.2em] text-center mb-4 text-[var(--color-muted-foreground)]">
-              Classifieds
-            </h3>
-            <div className="border border-[var(--color-border)] p-6 text-center space-y-4 bg-[var(--color-secondary)]">
-              <p className="text-xs uppercase tracking-widest text-[var(--color-foreground)] leading-relaxed">
-                Seeking Elegant & <br/> Robust Solutions?
-              </p>
-              <p className="text-2xl font-serif italic text-[var(--color-foreground)]">
-                Available for Hire
-              </p>
-              <p className="text-[9px] uppercase tracking-widest text-[var(--color-muted-foreground)] pt-2">
-                Inquire Within
-              </p>
-            </div>
-          </div>
-        </aside>
-      </div>
-
-      <div className="pt-20">
-        <TechStack />
       </div>
     </section>
   )

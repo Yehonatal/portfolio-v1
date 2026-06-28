@@ -1,17 +1,14 @@
 import type { Project } from '@/types/types'
-import { Link } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
-import { Github, Globe, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Github, Globe } from 'lucide-react'
 
 type ProjectCardProps = {
   project: Project
-  setSelectedCategory: (category: string) => void
-  setCurrentPage: (currentPage: number) => void
+  onSelect: (id: string) => void
+  index: number
 }
 
-const ProjectCard = ({
-  project,
-}: ProjectCardProps) => {
+const ProjectCard = ({ project, onSelect, index }: ProjectCardProps) => {
   if (!project) return null
 
   const {
@@ -25,94 +22,101 @@ const ProjectCard = ({
     techUsed,
   } = project
 
+  const isEven = index % 2 === 0
+  const formattedIndex = String(index + 1).padStart(2, '0')
+
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="group relative flex flex-col h-full bg-[var(--color-background)] border-b border-[var(--color-border)] pb-6 hover:bg-[var(--color-secondary)] transition-colors duration-500"
+      transition={{ duration: 0.6 }}
+      className={`flex flex-col ${
+        isEven ? 'md:flex-row' : 'md:flex-row-reverse'
+      } gap-8 md:gap-12 items-center py-12 border-b border-[var(--color-border)]/15`}
     >
-      <div className="flex justify-between items-center mb-4 border-b border-[var(--color-border)] pb-3 px-4 pt-4">
-        <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--color-muted-foreground)]">
-          {category}
-        </span>
-        <span className="text-[10px] font-serif italic text-[var(--color-muted-foreground)]">
-          Ref: #{id.slice(0, 4)}
-        </span>
+      {/* Text Info Column */}
+      <div className="flex-1 space-y-5 text-left w-full">
+        <div className="space-y-2">
+          {/* Index & Category tag */}
+          <div className="flex items-center gap-3 text-[10px] font-mono font-bold uppercase tracking-wider">
+            <span className="text-[var(--color-primary)] font-black text-xs md:text-sm">
+              {formattedIndex}.
+            </span>
+            <span className="text-[var(--color-muted-foreground)] tracking-[0.2em]">
+              {category}
+            </span>
+          </div>
+
+          {/* Project Title */}
+          <h3 
+            onClick={() => onSelect(id)}
+            className="text-2xl md:text-3.5xl font-black tracking-tight text-[var(--color-foreground)] cursor-pointer hover:text-[var(--color-primary)] transition-colors leading-none font-display"
+          >
+            {title}
+          </h3>
+        </div>
+
+        {/* Short Description */}
+        <p className="text-sm md:text-base text-[var(--color-muted-foreground)] font-light leading-relaxed line-clamp-2">
+          {description}
+        </p>
+
+        {/* Tech Badges */}
+        <div className="flex flex-wrap gap-1.5 pt-1">
+          {techUsed?.slice(0, 5).map((tech) => (
+            <span
+              key={tech}
+              className="text-[9px] font-mono font-semibold uppercase tracking-[0.05em] text-[var(--color-muted-foreground)] bg-[var(--color-secondary)]/50 px-2.5 py-1 rounded"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        {/* CTAs / External links */}
+        <div className="flex items-center gap-6 pt-3">
+          <button
+            onClick={() => onSelect(id)}
+            className="text-xs font-bold uppercase tracking-widest text-[var(--color-foreground)] hover:text-[var(--color-primary)] transition-colors cursor-pointer flex items-center gap-1.5 focus:outline-none"
+          >
+            Explore Project <ArrowUpRight size={14} />
+          </button>
+
+          {repoLink && (
+            <a
+              href={repoLink}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors text-xs font-bold uppercase tracking-widest flex items-center gap-1"
+            >
+              <Github size={13} /> Code
+            </a>
+          )}
+
+          {liveLink && (
+            <a
+              href={liveLink}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors text-xs font-bold uppercase tracking-widest flex items-center gap-1"
+            >
+              <Globe size={13} /> Live
+            </a>
+          )}
+        </div>
       </div>
 
-      <div className="px-4">
-        <Link
-          to="/projects/$projectsId"
-          params={{ projectsId: id }}
-          className="block relative aspect-[4/3] overflow-hidden border border-[var(--color-border)] mb-6 grayscale-[0.8] group-hover:grayscale-0 transition-all duration-700"
-        >
-          <img
-            src={images[0]}
-            alt={title}
-            className="w-full h-full object-cover scale-100 group-hover:scale-105 transition-transform duration-700"
-          />
-        </Link>
-
-        <div className="flex flex-col flex-grow">
-          <div className="flex justify-between items-start gap-4 mb-3">
-            <Link
-              to="/projects/$projectsId"
-              params={{ projectsId: id }}
-              className="group/title flex-1"
-            >
-              <h3 className="text-2xl font-serif tracking-tight leading-tight group-hover/title:text-[var(--color-muted-foreground)] transition-colors">
-                {title}
-              </h3>
-            </Link>
-            <div className="flex gap-2 pt-1">
-              {repoLink && (
-                <a
-                  href={repoLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors"
-                >
-                  <Github size={16} strokeWidth={1.5} />
-                </a>
-              )}
-              {liveLink && (
-                <a
-                  href={liveLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors"
-                >
-                  <Globe size={16} strokeWidth={1.5} />
-                </a>
-              )}
-            </div>
-          </div>
-
-          <p className="text-sm leading-relaxed text-[var(--color-muted-foreground)] font-light line-clamp-3 mb-6">
-            {description}
-          </p>
-
-          <div className="mt-auto pt-4 border-t border-[var(--color-border)] flex justify-between items-center">
-            <div className="flex flex-wrap gap-2">
-              {techUsed?.slice(0, 2).map((tech) => (
-                <span
-                  key={tech}
-                  className="text-[10px] font-medium uppercase tracking-[0.1em] text-[var(--color-foreground)]"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-            <Link
-              to="/projects/$projectsId"
-              params={{ projectsId: id }}
-              className="text-[10px] font-medium uppercase tracking-[0.2em] flex items-center gap-1 text-[var(--color-muted-foreground)] group-hover:text-[var(--color-foreground)] transition-colors"
-            >
-              Read <ArrowUpRight size={14} strokeWidth={1.5} />
-            </Link>
-          </div>
-        </div>
+      {/* Image Showcase Column */}
+      <div 
+        onClick={() => onSelect(id)}
+        className="flex-1 w-full aspect-[16/10] bg-[var(--color-secondary)]/30 rounded-2xl overflow-hidden cursor-pointer group"
+      >
+        <img
+          src={images[0]}
+          alt={title}
+          className="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:scale-[1.03] transition-all duration-700 ease-out"
+        />
       </div>
     </motion.div>
   )

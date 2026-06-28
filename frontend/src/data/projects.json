@@ -3,15 +3,7 @@
     "id": "8",
     "title": "CourseHub",
     "description": "CourseHub is a large-scale, open-source adaptive learning platform designed specifically for Ethiopian universities. It centralizes curriculum-aligned academic resources, supports community-driven moderation, and introduces optional AI-powered study aids through the Google Gemini API. The system is architected with strict data isolation, role-based access control, and optimized row-level security policies. Built with Next.js, Supabase, PostgreSQL, and MongoDB, CourseHub emphasizes scalability, performance, and real-world academic workflows, making it suitable for institutional adoption.",
-    "images": [
-      "/covers/projects/coursehub_preview/ai.png",
-      "/covers/projects/coursehub_preview/homepage.png",
-      "/covers/projects/coursehub_preview/resourcespage.png",
-      "/covers/projects/coursehub_preview/singleresourceview.png",
-      "/covers/projects/coursehub_preview/userpage.png",
-      "/covers/projects/coursehub_preview/customedesign.png",
-      "/covers/projects/coursehub_preview/universitypage.png"
-    ],
+    "images": ["/covers/projects/coursehub_preview/home.png"],
     "repoLink": "https://github.com/Yehonatal/coursehub",
     "liveLink": "https://coursehub-brown.vercel.app/",
     "category": "Education Platforms",
@@ -39,7 +31,7 @@
     "liveLink": "",
     "category": "AI & Data Systems",
     "date": "2025-09-19",
-    "featured": true,
+    "featured": false,
     "techUsed": [
       "Node.js",
       "Python",
@@ -65,7 +57,7 @@
     "liveLink": "",
     "category": "Full-Stack Applications",
     "date": "2026-01-25",
-    "featured": true,
+    "featured": false,
     "techUsed": [
       "React",
       "TypeScript",
@@ -129,17 +121,7 @@
     "id": "12",
     "title": "Personal Expense Tracker",
     "description": "A feature-rich personal finance application that enables users to track expenses, manage budgets, and analyze spending patterns. The system integrates Google Gemini AI to parse natural language expense inputs, supports recurring transactions, and provides detailed visual analytics. Built with a secure authentication flow and scalable backend architecture, the project demonstrates applied AI usage in a practical, user-focused domain.",
-    "images": [
-      "/covers/projects/expense_preview/editmodal.png",
-      "/covers/projects/expense_preview/modal.png",
-      "/covers/projects/expense_preview/dashboard2.png",
-      "/covers/projects/expense_preview/home.png",
-      "/covers/projects/expense_preview/aimodal.png",
-      "/covers/projects/expense_preview/dashboard.png",
-      "/covers/projects/expense_preview/templates.png",
-      "/covers/projects/expense_preview/budget.png",
-      "/covers/projects/expense_preview/profile.png"
-    ],
+    "images": ["/covers/projects/expense_preview/home.png"],
     "repoLink": "https://github.com/Yehonatal/project-expenses",
     "liveLink": "https://project-expenses-pied.vercel.app/",
     "category": "Productivity Tools",
@@ -230,7 +212,7 @@
     "liveLink": "https://github.com/Yehonatal/webII-project?tab=readme-ov-file",
     "category": "Web Applications",
     "date": "2023-06-15",
-    "featured": true,
+    "featured": false,
     "techUsed": ["React", "TailwindCSS", "PHP", "MySQL", "JavaScript", "Vite"]
   },
 
@@ -281,5 +263,70 @@
     "date": "2023-05-05",
     "featured": false,
     "techUsed": ["HTML", "CSS", "JavaScript"]
+  },
+  {
+    "id": "17",
+    "title": "Fidel Tools",
+    "description": "Fidel Tools is a modular, schema-driven NLP pre-processing framework built specifically for Amharic and other Ethiopic script text. Published as an open-source monorepo on npm, it provides high-performance pipeline components including character normalization, sentence boundary tokenization, prefix-aware stopword removal, light stemming, and bidirectional transliteration. The project addresses the gap in production-grade, configurable Ethiopic NLP tooling and includes a live interactive demo site.",
+    "images": ["/covers/projects/fideltools/home.png"],
+    "repoLink": "https://github.com/Yehonatal/fidel-tools",
+    "liveLink": "https://fidel-tools.vercel.app/",
+    "category": "Developer Tools",
+    "date": "2025-01-01",
+    "featured": true,
+    "techUsed": ["TypeScript", "Next.js", "TailwindCSS", "pnpm", "npm"]
+  },
+  {
+    "id": "18",
+    "title": "Awash Feed",
+    "description": "Awash is a privacy-first RSS/Atom feed reader and newsletter aggregator inspired by the Awash River — Ethiopia's only fully self-contained basin. The app consolidates external content sources into one private reading space, stripping trackers and pixels at ingest. It features four layout modes, a zero-barrier sandbox with 19 pre-seeded feeds, offline-first sync, and a local AI lens (BYOK) for in-browser summarization and tagging. The design draws on an Ethiopic editorial aesthetic with geology-inspired color tokens and custom typefaces.",
+    "images": ["/covers/projects/awash/home.png"],
+    "repoLink": "https://github.com/Yehonatal/awash-feed",
+    "liveLink": "https://awash-feed.vercel.app/",
+    "category": "Productivity Tools",
+    "date": "2026-01-01",
+    "featured": true,
+    "techUsed": [
+      "Next.js",
+      "TypeScript",
+      "TailwindCSS",
+      "PostgreSQL",
+      "Drizzle ORM",
+      "Better Auth",
+      "Neon"
+    ]
+  },
+  {
+    "id": "19",
+    "title": "Learn Orthodox",
+    "description": "An interactive, trilingual educational portal dedicated to the liturgical heritage of the Ethiopian Orthodox Tewahedo Church. The platform presents sacred texts — beginning with the Divine Liturgy of St. Dioscoros — in parallel Ge'ez, Amharic, and English, with visual role indicators for Priest, Deacon, Congregation, and Cantor parts. An AI commentary layer (supporting Gemini, GPT, and Claude) delivers real-time theological breakdowns per verse. The architecture features hybrid online/offline data access via Supabase with local filesystem fallback, and a pgvector schema for future semantic search.",
+    "images": ["/covers/projects/learnorthodox/home.png"],
+    "repoLink": "https://github.com/Yehonatal/learn-orthodox",
+    "liveLink": "https://learn-orthodox.vercel.app/",
+    "category": "Education Platforms",
+    "date": "2026-01-01",
+    "featured": true,
+    "techUsed": [
+      "Next.js",
+      "TypeScript",
+      "TailwindCSS",
+      "Supabase",
+      "PostgreSQL",
+      "pgvector",
+      "Gemini API",
+      "pnpm"
+    ]
+  },
+  {
+    "id": "20",
+    "title": "Fidel Lab",
+    "description": "An interactive browser-based playground for the Fidel Tools NLP pipeline. Fidel Lab lets developers test Amharic text processing in real time — running lexical normalization, stopword filtering, morphological stemming, and SERA transliteration step-by-step on any input corpus. Built as the demo app within the fidel-tools monorepo, it serves as a live showcase and debugging environment for the @fidel-tools/core and @fidel-tools/lang-am packages.",
+    "images": ["/covers/projects/fidellab/home.png"],
+    "repoLink": "https://github.com/Yehonatal/fidel-tools/tree/main/apps/lab",
+    "liveLink": "https://fidel-tools.vercel.app/",
+    "category": "Developer Tools",
+    "date": "2025-01-01",
+    "featured": true,
+    "techUsed": ["TypeScript", "Next.js", "TailwindCSS", "pnpm"]
   }
 ]
