@@ -18,13 +18,14 @@ import { useInkTrail } from './hooks/useInkTrail'
 
 let consoleLogged = false
 
-export default function VisitorMode({ onBackToPersona }) {
-  const [interruptDone, setInterruptDone] = useState(false)
-  const [theme, setTheme] = useState(() => {
+export default function VisitorMode({ onBackToPersona, theme, toggleTheme }) {
+  const [interruptDone, setInterruptDone] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('visitor-theme') || 'light'
+      const skip = sessionStorage.getItem('interrupt-done') === 'true'
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      if (skip || reduceMotion) return true
     }
-    return 'light'
+    return false
   })
 
   const [terminalOpen, setTerminalOpen] = useState(false)
@@ -42,12 +43,6 @@ export default function VisitorMode({ onBackToPersona }) {
         "color: #C8392B; font-family: monospace; font-size: 14px; font-weight: bold; line-height: 1.5;"
       )
       consoleLogged = true
-    }
-
-    const skip = sessionStorage.getItem('interrupt-done') === 'true'
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (skip || reduceMotion) {
-      setInterruptDone(true)
     }
   }, [])
 
@@ -96,11 +91,7 @@ export default function VisitorMode({ onBackToPersona }) {
     }
   }, [theme])
 
-  const toggleTheme = () => {
-    const nextTheme = theme === 'light' ? 'dark' : 'light'
-    setTheme(nextTheme)
-    localStorage.setItem('visitor-theme', nextTheme)
-  }
+
 
   // Set up dynamic fonts, listeners, console messages and titles
   useEffect(() => {
@@ -312,7 +303,7 @@ export default function VisitorMode({ onBackToPersona }) {
       {/* Full-screen Loading Interrupt screen */}
       <AnimatePresence>
         {!interruptDone && (
-          <Interrupt onComplete={handleInterruptComplete} />
+          <Interrupt theme={theme} onComplete={handleInterruptComplete} />
         )}
       </AnimatePresence>
 

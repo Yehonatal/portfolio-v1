@@ -45,6 +45,8 @@ function App() {
   const navigate = useNavigate({ from: '/' })
   const { project: projectQueryId } = Route.useSearch()
 
+  const [hoveredPersona, setHoveredPersona] = useState<'engineer' | 'hr' | 'visitor' | null>(null)
+  
   // Persona state
   const [persona, setPersona] = useState<'engineer' | 'hr' | 'visitor' | null>(() => {
     if (typeof window !== 'undefined') {
@@ -56,7 +58,15 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState('Featured')
   const [showAllProjects, setShowAllProjects] = useState(false)
   const [activeSection, setActiveSection] = useState('about')
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('theme') || localStorage.getItem('visitor-theme')
+      if (stored === 'light' || stored === 'dark') return stored
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      return systemDark ? 'dark' : 'light'
+    }
+    return 'dark'
+  })
   const [palette, setPalette] = useState<'mono' | 'cyber' | 'warm' | 'organic'>('mono')
 
   // Curated premium artist palettes
@@ -137,9 +147,13 @@ function App() {
 
   // Sync theme
   useEffect(() => {
-    const isDark = document.documentElement.classList.contains('dark')
-    setTheme(isDark ? 'dark' : 'light')
-  }, [])
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+    localStorage.setItem('theme', theme)
+  }, [theme])
 
   // Sync custom palette variables to document root
   useEffect(() => {
@@ -292,6 +306,8 @@ function App() {
     return (
       <>
         <MobileApp
+          theme={theme}
+          toggleTheme={toggleTheme}
           localTime={localTime}
           categories={categories}
           selectedCategory={selectedCategory}
@@ -321,546 +337,312 @@ function App() {
     )
   }
 
-  // 1. Selector view if no persona chosen yet
-  if (!isMobile && persona === null) {
+  // 1. Selector/Persona views if not on mobile
+  if (!isMobile) {
+    const isDarkTheme = theme === 'dark'
+
     return (
-      <div className="min-h-screen flex items-center justify-center p-6 bg-[var(--background)] select-none">
-        <motion.div 
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-3xl w-full text-center space-y-12"
-        >
-          {/* Header */}
-          <div className="space-y-3">
-            <span className="text-[10px] font-mono tracking-[0.3em] text-[var(--primary)] uppercase font-bold">
-              PORTAL SESSION CONFIGURATION
-            </span>
-            <h1 className="text-4xl md:text-5xl font-black font-display tracking-tight text-[var(--foreground)] leading-none">
-              Choose your profile.
-            </h1>
-            <p className="text-xs md:text-sm text-[var(--muted-foreground)] font-light max-w-md mx-auto leading-relaxed">
-              Select the workspace profile that best matches your target goal today. You can hot-swap at any time.
-            </p>
-          </div>
-
-          {/* Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-            {[
-              {
-                id: 'engineer' as const,
-                title: 'Engineer',
-                subtitle: '// Terminal IDE',
-                desc: '100% monospaced shell console. Click file explorers, execute live commands, and read code indices.',
-                icon: <Terminal size={20} className="text-[var(--primary)]" />
-              },
-              {
-                id: 'hr' as const,
-                title: 'Recruiter / HR',
-                subtitle: '// Corporate CV',
-                desc: 'Clean, structured curriculum vitae dashboard. High readability outlines, direct timeline indices, and resume downloads.',
-                icon: <Briefcase size={20} className="text-[var(--primary)]" />
-              },
-              {
-                id: 'visitor' as const,
-                title: 'General Visitor',
-                subtitle: '// Immersive Design',
-                desc: 'Creative designer showcase with dynamic grids, hover card micro-motions, and curated visual sections.',
-                icon: <Globe size={20} className="text-[var(--primary)]" />
-              }
-            ].map((item) => (
-              <motion.div
-                key={item.id}
-                whileHover={{ y: -6 }}
-                whileTap={{ scale: 0.99 }}
-                onClick={() => {
-                  setPersona(item.id)
-                  localStorage.setItem('portfolio-persona', item.id)
-                }}
-                className="bg-[var(--card)] border border-[var(--border)] hover:border-[var(--primary)]/60 p-6 text-left rounded-xl cursor-pointer transition-colors duration-250 flex flex-col justify-between gap-6 group relative overflow-hidden"
-              >
-                <div className="space-y-4">
-                  <div className="p-2.5 bg-[var(--secondary)] rounded-lg w-fit group-hover:bg-[var(--primary)]/10 transition-colors">
-                    {item.icon}
-                  </div>
-                  <div className="space-y-0.5">
-                    <h3 className="text-base font-bold text-[var(--foreground)] font-display flex items-center gap-1.5">
-                      {item.title}
-                    </h3>
-                    <span className="block text-[8px] font-mono tracking-wider text-[var(--muted-foreground)]">
-                      {item.subtitle}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-[var(--muted-foreground)] leading-relaxed font-light">
-                    {item.desc}
-                  </p>
-                </div>
-                <div className="text-[9px] font-mono font-bold uppercase tracking-wider text-[var(--primary)] opacity-0 group-hover:opacity-100 transition-opacity">
-                  load_session() &rarr;
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
-    )
-  }
-
-  // 2. Engineer terminal mode
-  if (!isMobile && persona === 'engineer') {
-    return (
-      <div className="fixed inset-0 w-screen h-screen z-50 bg-[#0c0c0d] overflow-hidden select-none">
-        <EngineerTerminal
-          onBackToPersona={() => {
-            setPersona(null)
-            localStorage.removeItem('portfolio-persona')
-          }}
-          onInspectProject={(id) => navigate({ search: { project: id } })}
-        />
-        <ProjectDetailsModal
-          activeProject={activeProject as any}
-          isMobile={false}
-          activeProjectIndex={activeProjectIndex}
-          totalProjectsCount={filteredProjects.length}
-          onClose={() => navigate({ search: { project: undefined } })}
-          onPrev={handlePrevProject}
-          onNext={handleNextProject}
-        />
-      </div>
-    )
-  }
-
-  // 3. Recruiter CV dashboard mode
-  if (!isMobile && persona === 'hr') {
-    return (
-      <div className="max-w-5xl mx-auto px-6 py-12">
-        <RecruiterDashboard
-          onBackToPersona={() => {
-            setPersona(null)
-            localStorage.removeItem('portfolio-persona')
-          }}
-        />
-      </div>
-    )
-  }
-
-  // 4. General visitor mode
-  if (!isMobile && persona === 'visitor') {
-    return (
-      <VisitorMode
-        onBackToPersona={() => {
-          setPersona(null)
-          localStorage.removeItem('portfolio-persona')
-        }}
-      />
-    )
-  }
-
-  // Render Desktop Layout (Default & SSR safe)
-  return (
-    <div className="fixed inset-0 w-screen h-screen overflow-hidden flex flex-col justify-between p-6 md:p-10 bg-[var(--color-background)] text-[var(--color-foreground)] transition-colors duration-500 selection:bg-[var(--color-foreground)] selection:text-[var(--color-background)]">
-      <InteractiveStage section={activeSection} />
-      
-      {/* Self-contained CSS Marquee Animations */}
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes marquee {
-          0% { transform: translate3d(0, 0, 0); }
-          100% { transform: translate3d(-50%, 0, 0); }
-        }
-        .animate-marquee-scroll {
-          display: flex;
-          width: max-content;
-          animation: marquee 35s linear infinite;
-        }
-        .glass-chamber {
-          background: rgba(var(--color-secondary), 0.1);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-        }
-      `}} />
-
-      {/* Background Typography Marquee */}
-      <div className="absolute top-[35%] left-0 w-full overflow-hidden pointer-events-none select-none z-0 opacity-[0.035] dark:opacity-[0.025] transition-opacity">
-        <div className="animate-marquee-scroll flex text-8xl font-black font-display tracking-[0.25em] uppercase whitespace-nowrap text-[var(--color-primary)]">
-          <span>YONATAN AFEWERK • SYSTEM ARCHITECT • FULLSTACK ENGINEER • CREATIVE DEVELOPER • SWENETIX TECH PLC • ADDIS ABABA •&nbsp;</span>
-          <span>YONATAN AFEWERK • SYSTEM ARCHITECT • FULLSTACK ENGINEER • CREATIVE DEVELOPER • SWENETIX TECH PLC • ADDIS ABABA •&nbsp;</span>
-        </div>
-      </div>
-
-      {/* 3rd Space Header */}
-      <header className="relative z-10 w-full flex items-center justify-between border-b border-[var(--color-border)]/35 pb-5">
-        <div className="flex items-center gap-3">
-          <span className="font-display font-black text-sm uppercase tracking-[0.2em] text-[var(--color-foreground)]">
-            yonatan.
-          </span>
-          <span className="hidden md:inline-block text-[8px] font-mono px-2.5 py-0.5 rounded bg-[var(--color-secondary)] border border-[var(--color-border)] text-[var(--color-muted-foreground)] uppercase tracking-widest">
-            ONLINE // {localTime ? 'ADDIS ABABA' : 'OFFLINE'}
-          </span>
-        </div>
-        
-        {/* Artistic Control Center */}
-        <div className="flex items-center gap-6">
-          {/* Palette Selector */}
-          <div className="hidden lg:flex items-center gap-3 bg-[var(--color-secondary)]/50 border border-[var(--color-border)]/55 px-3 py-1.5 rounded-full">
-            <span className="text-[7px] font-mono text-[var(--color-muted-foreground)] uppercase tracking-widest mr-1">PALETTE:</span>
-            {[
-              { id: 'mono', label: 'MONO' },
-              { id: 'cyber', label: 'CYBER' },
-              { id: 'warm', label: 'BOHO' },
-              { id: 'organic', label: 'FOREST' },
-            ].map((p) => (
+      <AnimatePresence mode="wait">
+        {persona === null && (
+          <motion.div
+            key="portal-selector"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`min-h-screen w-full relative flex items-center justify-center p-6 transition-colors duration-500 select-none ${
+              isDarkTheme ? 'bg-[#070708] text-[#f4f4f5]' : 'bg-[#fafafa] text-[#18181b]'
+            }`}
+          >
+            {/* Floating Theme Switcher */}
+            <div className="absolute top-6 right-6 z-20">
               <button
-                key={p.id}
-                onClick={() => setPalette(p.id as any)}
-                className={`text-[8px] font-mono tracking-wider px-2 py-0.5 rounded-full transition-all cursor-pointer ${
-                  palette === p.id
-                    ? 'bg-[var(--color-foreground)] text-[var(--color-background)] font-bold shadow-sm'
-                    : 'text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)]'
+                onClick={toggleTheme}
+                className={`flex items-center gap-2 px-3.5 py-2 border rounded-full text-[10px] font-mono tracking-widest uppercase transition-all cursor-pointer ${
+                  isDarkTheme 
+                    ? 'bg-[#0c0c0e]/85 border-white/10 hover:border-white/20 text-white/75 hover:text-white'
+                    : 'bg-white/80 border-zinc-200 hover:border-zinc-300 text-zinc-600 hover:text-zinc-950 shadow-sm'
                 }`}
               >
-                {p.label}
+                {isDarkTheme ? (
+                  <>
+                    <Sun size={11} className="text-amber-400" />
+                    <span>LIGHT</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon size={11} className="text-indigo-500" />
+                    <span>DARK</span>
+                  </>
+                )}
               </button>
-            ))}
-          </div>
+            </div>
 
-          <div className="flex items-center gap-4">
-            {/* Switch Profile Switcher */}
-            <button
-              onClick={() => {
+            <style dangerouslySetInnerHTML={{ __html: `
+              @keyframes portal-scan {
+                0% { transform: translateY(-100vh); }
+                100% { transform: translateY(100vh); }
+              }
+              .portal-grid-lines {
+                background-size: 50px 50px;
+                background-image: 
+                  linear-gradient(to right, ${isDarkTheme ? 'rgba(255, 255, 255, 0.015)' : 'rgba(0, 0, 0, 0.025)'} 1px, transparent 1px),
+                  linear-gradient(to bottom, ${isDarkTheme ? 'rgba(255, 255, 255, 0.015)' : 'rgba(0, 0, 0, 0.025)'} 1px, transparent 1px);
+              }
+            `}} />
+
+            {/* Technical blueprint grid background */}
+            <div className="absolute inset-0 portal-grid-lines pointer-events-none z-0" />
+
+            {/* Laser scan line */}
+            <div 
+              className={`absolute left-0 w-full h-[1px] pointer-events-none z-0 ${
+                isDarkTheme ? 'bg-gradient-to-r from-transparent via-white/5 to-transparent' : 'bg-gradient-to-r from-transparent via-black/5 to-transparent'
+              }`}
+              style={{
+                animation: 'portal-scan 8s linear infinite',
+              }}
+            />
+
+            {/* Dynamic color-shifting radial glow based on hover state */}
+            <motion.div
+              animate={{
+                background: hoveredPersona === 'engineer'
+                  ? `radial-gradient(circle at 50% 50%, ${isDarkTheme ? 'rgba(16,185,129,0.08)' : 'rgba(16,185,129,0.05)'} 0%, transparent 60%)`
+                  : hoveredPersona === 'hr'
+                  ? `radial-gradient(circle at 50% 50%, ${isDarkTheme ? 'rgba(59,130,246,0.08)' : 'rgba(59,130,246,0.05)'} 0%, transparent 60%)`
+                  : hoveredPersona === 'visitor'
+                  ? `radial-gradient(circle at 50% 50%, ${isDarkTheme ? 'rgba(200,57,43,0.08)' : 'rgba(200,57,43,0.05)'} 0%, transparent 60%)`
+                  : isDarkTheme
+                  ? 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 0%, transparent 65%)'
+                  : 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0.02) 0%, transparent 65%)',
+              }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="absolute inset-0 z-0 pointer-events-none"
+            />
+
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="max-w-5xl w-full text-center space-y-12 relative z-10"
+            >
+              {/* Header */}
+              <div className="space-y-4 max-w-2xl mx-auto">
+                <h1 className={`text-4xl md:text-6xl font-extralight font-display tracking-tight leading-none ${
+                  isDarkTheme ? 'text-white' : 'text-zinc-900'
+                }`}>
+                  Identify <span className="font-semibold italic text-[#C8392B]">context</span>.
+                </h1>
+                <p className={`text-xs md:text-sm font-light max-w-md mx-auto leading-relaxed ${
+                  isDarkTheme ? 'text-white/40' : 'text-zinc-500'
+                }`}>
+                  Configure the workspace session based on your target objectives.
+                </p>
+              </div>
+
+              {/* Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                {[
+                  {
+                    id: 'engineer' as const,
+                    title: 'Engineer',
+                    subtitle: 'DEVELOPER / ARCHITECT',
+                    desc: 'A full monospaced IDE terminal context. Review directory structures, run scripts, explore data endpoints, and read developer logs.',
+                    icon: <Terminal size={18} />,
+                    color: '#10b981',
+                    accentBg: 'rgba(16,185,129,0.15)',
+                    features: ['IDE File System', 'Live Interactive REPL', 'Source Code Access']
+                  },
+                  {
+                    id: 'hr' as const,
+                    title: 'Recruiter / HR',
+                    subtitle: 'TALENT ACQUISITION',
+                    desc: 'Clean, structured curriculum vitae dashboard context. Optimized for scanning experience history, skill trees, and direct CV download.',
+                    icon: <Briefcase size={18} />,
+                    color: '#3b82f6',
+                    accentBg: 'rgba(59,130,246,0.15)',
+                    features: ['Professional Timeline', 'CV Download Link', 'Capability Matrix']
+                  },
+                  {
+                    id: 'visitor' as const,
+                    title: 'General Visitor',
+                    subtitle: 'CREATIVE PORTFOLIO',
+                    desc: 'An immersive digital design showcase context. Interactive Perlin flow fields, typography-first layouts, and smooth transition mechanics.',
+                    icon: <Globe size={18} />,
+                    color: '#C8392B',
+                    accentBg: 'rgba(200,57,43,0.15)',
+                    features: ['Interactive Flow Field', 'Selected Work Exhibition', 'Process Methodology']
+                  }
+                ].map((item, idx) => {
+                  const isHovered = hoveredPersona === item.id;
+                  
+                  return (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.2 + idx * 0.1 }}
+                      whileHover={{ y: -8 }}
+                      whileTap={{ scale: 0.98 }}
+                      onMouseEnter={() => setHoveredPersona(item.id)}
+                      onMouseLeave={() => setHoveredPersona(null)}
+                      onClick={() => {
+                        setPersona(item.id)
+                        localStorage.setItem('portfolio-persona', item.id)
+                      }}
+                      className={`border p-6 text-left rounded-xl cursor-pointer flex flex-col justify-between min-h-[380px] group relative overflow-hidden transition-all duration-300 ${
+                        isDarkTheme ? 'bg-[#0c0c0e]' : 'bg-white shadow-sm'
+                      }`}
+                      style={{
+                        borderColor: isHovered 
+                          ? item.color 
+                          : isDarkTheme ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.08)',
+                        boxShadow: isHovered ? `0 10px 30px -15px ${item.color}` : 'none'
+                      }}
+                    >
+                      <div className="absolute inset-0 portal-grid-lines opacity-10 pointer-events-none" />
+
+                      <div className="space-y-6 relative z-10">
+                        <div className="flex items-center justify-between">
+                          <div 
+                            className="p-2.5 rounded-lg transition-colors"
+                            style={{ 
+                              backgroundColor: isHovered ? item.accentBg : (isDarkTheme ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.03)'),
+                              color: isHovered ? item.color : (isDarkTheme ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)')
+                            }}
+                          >
+                            {item.icon}
+                          </div>
+                          <span className={`text-[9px] font-mono tracking-widest ${
+                            isDarkTheme ? 'text-white/20' : 'text-zinc-300'
+                          }`}>
+                            [0{idx + 1}]
+                          </span>
+                        </div>
+
+                        <div className="space-y-1">
+                          <h3 className={`text-xl font-display font-semibold tracking-tight ${
+                            isDarkTheme ? 'text-white' : 'text-zinc-950'
+                          }`}>
+                            {item.title}
+                          </h3>
+                          <span 
+                            className="block text-[8px] font-mono tracking-widest transition-colors font-bold"
+                            style={{ color: isHovered ? item.color : (isDarkTheme ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.4)') }}
+                          >
+                            // {item.subtitle}
+                          </span>
+                        </div>
+
+                        <p className={`text-[11px] leading-relaxed font-light ${
+                          isDarkTheme ? 'text-white/50' : 'text-zinc-600'
+                        }`}>
+                          {item.desc}
+                        </p>
+
+                        <div className="space-y-1.5 pt-2">
+                          {item.features.map(feat => (
+                            <div key={feat} className={`flex items-center gap-2 text-[9px] font-mono ${
+                              isDarkTheme ? 'text-white/40' : 'text-zinc-500'
+                            }`}>
+                              <span style={{ color: isHovered ? item.color : (isDarkTheme ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.3)') }}>↳</span>
+                              <span>{feat}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div 
+                        className="text-[9px] font-mono font-bold uppercase tracking-widest pt-6 flex items-center gap-2 transition-all"
+                        style={{ 
+                          color: isHovered ? item.color : (isDarkTheme ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.5)'),
+                          transform: isHovered ? 'translateX(4px)' : 'none'
+                        }}
+                      >
+                        <span>load_session()</span>
+                        <span>&rarr;</span>
+                      </div>
+                    </motion.div>
+                  )
+                })}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {persona === 'engineer' && (
+          <motion.div
+            key="engineer-terminal"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 w-screen h-screen z-50 bg-[#0c0c0d] overflow-hidden select-none"
+          >
+            <EngineerTerminal
+              onBackToPersona={() => {
                 setPersona(null)
                 localStorage.removeItem('portfolio-persona')
               }}
-              className="text-[9px] font-mono tracking-widest text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] uppercase flex items-center gap-1.5 transition-colors cursor-pointer"
-            >
-              <RefreshCw size={11} /> CHANGE PROFILE
-            </button>
-            
-            <span className="text-[var(--color-border)] text-xs">|</span>
-            
-            {/* Minimal Theme Switcher */}
-            <button
-              onClick={toggleTheme}
-              className="text-[9px] font-mono tracking-widest text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] uppercase transition-colors cursor-pointer"
-            >
-              {theme === 'dark' ? 'LIGHT' : 'DARK'}
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Exhibition Deck (Center Frame) */}
-      <main className="relative z-10 flex-1 flex items-center justify-center py-6 w-full max-w-5xl mx-auto">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeSection}
-            initial={{ opacity: 0, scale: 0.98, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98, y: -10 }}
-            transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="w-full h-fit py-6 px-4"
-          >
-            {/* Double-Layer Card container for parallax 3D feel */}
-            <div className="relative group max-w-4xl mx-auto w-full">
-              {/* Back Drop shadow sheet */}
-              <div className="absolute -inset-2 bg-gradient-to-r from-[var(--color-primary)]/10 to-[var(--color-muted-foreground)]/10 rounded-2xl blur-xl opacity-70 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              <div className="absolute inset-0 border border-[var(--color-primary)]/10 rounded-2xl translate-x-2 translate-y-2 group-hover:translate-x-3 group-hover:translate-y-3 transition-transform duration-500 pointer-events-none" />
-
-              {/* Main active interactive content card */}
-              <div className="relative bg-[var(--color-background)]/85 border border-[var(--color-border)]/65 rounded-2xl p-6 md:p-10 backdrop-blur-xl shadow-2xl transition-colors duration-500 min-h-[380px] flex flex-col justify-center animate-fade-in">
-                {activeSection === 'about' && (
-                  <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center w-full">
-                    <div className="md:col-span-3 space-y-6">
-                      <span className="text-[9px] font-mono tracking-[0.25em] text-[var(--color-primary)] uppercase block">01 / INTRODUCTION</span>
-                      <h1 className="text-4xl md:text-5xl font-display font-light tracking-tight leading-tight text-[var(--color-foreground)]">
-                        Building scalable architectures with <span className="font-semibold italic text-[var(--color-primary)]">clean code</span> and <span className="font-semibold italic text-[var(--color-muted-foreground)]">visual precision</span>.
-                      </h1>
-                      <p className="text-[11px] font-mono leading-relaxed text-[var(--color-muted-foreground)] max-w-lg">
-                        Addis Ababa, Ethiopia — Designing robust MERN architectures, Odoo ERP enterprise modules, and query-optimized schemas at Swenetix Tech PLC.
-                      </p>
-                    </div>
-                    <div className="md:col-span-2 border-l border-[var(--color-border)]/45 pl-8 space-y-6 py-4">
-                      <div className="space-y-1">
-                        <span className="block text-[8px] font-mono tracking-widest text-[var(--color-muted-foreground)] uppercase">LOCAL ZONE</span>
-                        <span className="block text-xs font-mono font-bold text-[var(--color-foreground)]">{localTime} EAT</span>
-                      </div>
-                      <div className="space-y-1">
-                        <span className="block text-[8px] font-mono tracking-widest text-[var(--color-muted-foreground)] uppercase">CALENDAR</span>
-                        <span className="block text-xs font-mono font-bold text-[var(--color-foreground)]">Ginbot 20, 2018 E.C.</span>
-                      </div>
-                      <div className="space-y-1">
-                        <span className="block text-[8px] font-mono tracking-widest text-[var(--color-muted-foreground)] uppercase">STATUS</span>
-                        <span className="block text-xs font-mono font-bold text-[var(--color-primary)] uppercase tracking-widest flex items-center gap-1.5">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-primary)] animate-ping"></span>
-                          DEPLOYMENT_READY
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                
-                {activeSection === 'projects' && (
-                  <div className="w-full flex flex-col md:flex-row gap-8 items-center justify-between">
-                    {/* Left arrow */}
-                    <button 
-                      onClick={prevCarousel} 
-                      className="p-3 rounded-full hover:bg-[var(--color-secondary)] text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors cursor-pointer hidden md:block"
-                    >
-                      <ChevronLeft size={24} />
-                    </button>
-                    
-                    {/* Center project panel */}
-                    {(() => {
-                      const proj = projectsData[carouselIndex]
-                      return (
-                        <div className="flex-1 w-full space-y-6">
-                          <div className="space-y-4">
-                            <div className="flex items-center justify-between border-b border-[var(--color-border)]/45 pb-4">
-                              <span className="text-[9px] font-mono tracking-[0.25em] text-[var(--color-primary)] uppercase">
-                                EXHIBIT 02 / {String(carouselIndex + 1).padStart(2, '0')}
-                              </span>
-                              <span className="text-[9px] font-mono tracking-widest text-[var(--color-muted-foreground)] uppercase">
-                                {proj.category}
-                              </span>
-                            </div>
-                            
-                            <h2 className="text-2xl font-bold font-display tracking-tight text-[var(--color-foreground)]">
-                              {proj.title}
-                            </h2>
-                            
-                            <p className="text-[11px] leading-relaxed text-[var(--color-muted-foreground)] font-light line-clamp-4">
-                              {proj.description}
-                            </p>
-                          </div>
-                          
-                          <div className="space-y-4 pt-2">
-                            {/* Tech Stack tags */}
-                            <div className="flex flex-wrap gap-1.5">
-                              {proj.techUsed.map(t => (
-                                <span key={t} className="text-[8px] font-mono px-2 py-0.5 rounded bg-[var(--color-secondary)] text-[var(--color-muted-foreground)] border border-[var(--color-border)]/35">
-                                  {t}
-                                </span>
-                              ))}
-                            </div>
-                            
-                            <div className="flex items-center gap-4 pt-2">
-                              <button
-                                onClick={() => navigate({ search: { project: proj.id } })}
-                                className="px-6 py-2.5 bg-[var(--color-foreground)] text-[var(--color-background)] rounded-full text-[10px] font-mono font-bold uppercase tracking-wider hover:opacity-90 transition-opacity cursor-pointer shadow-lg shadow-[var(--color-foreground)]/10"
-                              >
-                                INSPECT CODEX ARTIFACT
-                              </button>
-                              
-                              {proj.liveLink && (
-                                <a
-                                  href={proj.liveLink}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-[10px] font-mono tracking-widest text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] uppercase flex items-center gap-1 transition-colors"
-                                >
-                                  LIVE PREVIEW <ArrowUpRight size={12} />
-                                </a>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    })()}
-                    
-                    {/* Right arrow */}
-                    <button 
-                      onClick={nextCarousel} 
-                      className="p-3 rounded-full hover:bg-[var(--color-secondary)] text-[var(--color-muted-foreground)] hover:text-[var(--color-foreground)] transition-colors cursor-pointer hidden md:block"
-                    >
-                      <ChevronRight size={24} />
-                    </button>
-
-                    {/* Mobile navigation row */}
-                    <div className="flex md:hidden gap-6 mt-4 w-full justify-center">
-                      <button onClick={prevCarousel} className="px-4 py-2 rounded-lg bg-[var(--color-secondary)] border border-[var(--color-border)] text-xs font-mono">PREV</button>
-                      <span className="text-xs font-mono text-[var(--color-muted-foreground)] self-center">{carouselIndex + 1} / {projectsData.length}</span>
-                      <button onClick={nextCarousel} className="px-4 py-2 rounded-lg bg-[var(--color-secondary)] border border-[var(--color-border)] text-xs font-mono">NEXT</button>
-                    </div>
-                  </div>
-                )}
-
-                {activeSection === 'skills' && (
-                  <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
-                    {/* Left categories navigation */}
-                    <div className="md:col-span-1 flex flex-col gap-2">
-                      <span className="text-[9px] font-mono tracking-[0.25em] text-[var(--color-primary)] uppercase block mb-3">03 / CAPABILITIES</span>
-                      {techCategories.map(cat => (
-                        <button
-                          key={cat.id}
-                          onClick={() => setSkillsCategory(cat.id as any)}
-                          className={`text-left px-4 py-3 border transition-all cursor-pointer font-mono uppercase text-[9px] tracking-widest ${
-                            skillsCategory === cat.id
-                              ? 'bg-[var(--color-foreground)] text-[var(--color-background)] border-[var(--color-foreground)]'
-                              : 'bg-transparent text-[var(--color-muted-foreground)] border-[var(--color-border)]/45 hover:border-[var(--color-foreground)] hover:text-[var(--color-foreground)]'
-                          }`}
-                        >
-                          {cat.name.split(' ')[0]}
-                        </button>
-                      ))}
-                    </div>
-                    
-                    {/* Right detailed list card */}
-                    {(() => {
-                      const activeCat = techCategories.find(c => c.id === skillsCategory) || techCategories[0]
-                      return (
-                        <div className="md:col-span-3 min-h-[260px] flex flex-col justify-between">
-                          <div className="space-y-4">
-                            <h3 className="text-xl font-bold font-display text-[var(--color-foreground)]">{activeCat.name}</h3>
-                            <p className="text-[11px] leading-relaxed text-[var(--color-muted-foreground)] font-light">{activeCat.description}</p>
-                          </div>
-                          
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-                            {activeCat.tech.map(t => (
-                              <div key={t.name} className="space-y-1">
-                                <span className="block text-[10px] font-bold text-[var(--color-foreground)] tracking-wide">{t.name}</span>
-                                <span className="block text-[9px] font-mono text-[var(--color-muted-foreground)] leading-normal">{t.desc}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )
-                    })()}
-                  </div>
-                )}
-
-                {activeSection === 'writing' && (
-                  <div className="w-full space-y-6">
-                    <span className="text-[9px] font-mono tracking-[0.25em] text-[var(--color-primary)] uppercase block">04 / WRITTEN JOURNALS</span>
-                    <div className="space-y-3">
-                      {blogsData.map((blog, idx) => (
-                        <a
-                          key={blog.id}
-                          href={blog.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block p-4 bg-[var(--color-secondary)]/40 border border-[var(--color-border)]/45 hover:border-[var(--color-foreground)] rounded-xl transition-all cursor-pointer group"
-                        >
-                          <div className="flex items-center justify-between gap-4">
-                            <div className="space-y-1.5">
-                              <span className="text-[8px] font-mono text-[var(--color-muted-foreground)] uppercase tracking-widest">JOURNAL 04.{idx + 1}</span>
-                              <h3 className="text-sm font-semibold text-[var(--color-foreground)] group-hover:text-[var(--color-primary)] transition-colors font-display">
-                                {blog.title}
-                              </h3>
-                              <p className="text-[10px] text-[var(--color-muted-foreground)] font-light line-clamp-1">{blog.description}</p>
-                            </div>
-                            <ArrowUpRight size={14} className="text-[var(--color-muted-foreground)] group-hover:text-[var(--color-foreground)] transition-colors" />
-                          </div>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {activeSection === 'contact' && (
-                  <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div className="space-y-6">
-                      <span className="text-[9px] font-mono tracking-[0.25em] text-[var(--color-primary)] uppercase block">05 / DIALOGUE</span>
-                      <h2 className="text-3xl font-bold font-display tracking-tight text-[var(--color-foreground)] leading-tight">
-                        Let's co-create. Establish communication.
-                      </h2>
-                      <p className="text-[11px] leading-relaxed text-[var(--color-muted-foreground)] max-w-sm">
-                        Reach out to initiate freelance collaborations, enterprise audits, or discuss modern frontend architectures.
-                      </p>
-                    </div>
-                    
-                    <div className="flex flex-col gap-3">
-                      <a
-                        href="mailto:yonatanafewerk@gmail.com"
-                        className="flex items-center justify-between p-4 bg-[var(--color-secondary)]/40 border border-[var(--color-border)]/45 hover:border-[var(--color-primary)] rounded-xl transition-all font-mono text-[10px] tracking-wider text-[var(--color-foreground)] uppercase cursor-pointer"
-                      >
-                        <span>EMAIL // yonatanafewerk@gmail.com</span>
-                        <ArrowUpRight size={12} />
-                      </a>
-                      <a
-                        href="https://t.me/yonatanafewerk"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-between p-4 bg-[var(--color-secondary)]/40 border border-[var(--color-border)]/45 hover:border-[var(--color-primary)] rounded-xl transition-all font-mono text-[10px] tracking-wider text-[var(--color-foreground)] uppercase cursor-pointer"
-                      >
-                        <span>TELEGRAM // @yonatanafewerk</span>
-                        <ArrowUpRight size={12} />
-                      </a>
-                      <a
-                        href="https://www.linkedin.com/in/yonatan-afewerk/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-between p-4 bg-[var(--color-secondary)]/40 border border-[var(--color-border)]/45 hover:border-[var(--color-primary)] rounded-xl transition-all font-mono text-[10px] tracking-wider text-[var(--color-foreground)] uppercase cursor-pointer"
-                      >
-                        <span>LINKEDIN // connect</span>
-                        <ArrowUpRight size={12} />
-                      </a>
-                      <a
-                        href="https://drive.google.com/file/d/1lFQogpWl42L-UE5DvY_40laKmA_0sXlf/view?usp=sharing"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-between p-4 bg-[var(--color-secondary)]/40 border border-[var(--color-border)]/45 hover:border-[var(--color-primary)] rounded-xl transition-all font-mono text-[10px] tracking-wider text-[var(--color-foreground)] uppercase cursor-pointer font-bold animate-pulse"
-                      >
-                        <span>DOWNLOAD PORTFOLIO RESUME</span>
-                        <ArrowUpRight size={12} />
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+              onInspectProject={(id) => navigate({ search: { project: id } })}
+            />
+            <ProjectDetailsModal
+              activeProject={activeProject as any}
+              isMobile={false}
+              activeProjectIndex={activeProjectIndex}
+              totalProjectsCount={filteredProjects.length}
+              onClose={() => navigate({ search: { project: undefined } })}
+              onPrev={handlePrevProject}
+              onNext={handleNextProject}
+            />
           </motion.div>
-        </AnimatePresence>
-      </main>
+        )}
 
-      {/* Bottom Exhibition Dock (Navigation) */}
-      <footer className="relative z-10 w-full border-t border-[var(--color-border)]/35 pt-5 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="text-[8px] font-mono tracking-widest text-[var(--color-muted-foreground)] uppercase">
-          EXHIBITION SPACE // YONATAN AFEWERK PORTFOLIO
-        </div>
-        
-        <nav className="flex items-center gap-6 md:gap-8 overflow-x-auto max-w-full pb-2 md:pb-0">
-          {[
-            { id: 'about', label: 'ABSTRACT', num: '01' },
-            { id: 'projects', label: 'SELECTED WORKS', num: '02' },
-            { id: 'skills', label: 'CAPABILITIES', num: '03' },
-            { id: 'writing', label: 'LOGS', num: '04' },
-            { id: 'contact', label: 'DIALOGUE', num: '05' },
-          ].map((link) => {
-            const isActive = activeSection === link.id
-            return (
-              <button
-                key={link.id}
-                onClick={() => setActiveSection(link.id)}
-                className="flex items-center gap-1.5 focus:outline-none cursor-pointer group py-1"
-              >
-                <span className={`text-[7px] font-mono tracking-widest transition-colors ${
-                  isActive ? 'text-[var(--color-foreground)] font-bold' : 'text-[var(--color-muted-foreground)] group-hover:text-[var(--color-foreground)]'
-                }`}>
-                  {link.num}
-                </span>
-                <span className={`text-[9px] font-mono tracking-[0.15em] transition-colors border-b py-0.5 ${
-                  isActive
-                    ? 'text-[var(--color-foreground)] border-[var(--color-foreground)]'
-                    : 'text-[var(--color-muted-foreground)] border-transparent hover:text-[var(--color-foreground)]'
-                }`}>
-                  {link.label}
-                </span>
-              </button>
-            )
-          })}
-        </nav>
-      </footer>
+        {persona === 'hr' && (
+          <motion.div
+            key="hr-dashboard"
+            initial={{ opacity: 0, scale: 0.99, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.99, y: -10 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full min-h-screen"
+          >
+            <RecruiterDashboard
+              theme={theme}
+              toggleTheme={toggleTheme}
+              onBackToPersona={() => {
+                setPersona(null)
+                localStorage.removeItem('portfolio-persona')
+              }}
+            />
+          </motion.div>
+        )}
 
-      {/* Info-Dense Project Popup Modal */}
-      <ProjectDetailsModal
-        activeProject={activeProject as any}
-        isMobile={false}
-        activeProjectIndex={activeProjectIndex}
-        totalProjectsCount={filteredProjects.length}
-        onClose={() => navigate({ search: { project: undefined } })}
-        onPrev={handlePrevProject}
-        onNext={handleNextProject}
-      />
-    </div>
-  )
+        {persona === 'visitor' && (
+          <motion.div
+            key="visitor-mode"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full min-h-screen"
+          >
+            <VisitorMode
+              theme={theme}
+              toggleTheme={toggleTheme}
+              onBackToPersona={() => {
+                setPersona(null)
+                localStorage.removeItem('portfolio-persona')
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    )
+  }
+
+
+  return null
 }
-
-

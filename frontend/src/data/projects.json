@@ -129,7 +129,7 @@
   },
   {
     "id": "12",
-    "title": "Personal Expense Tracker",
+    "title": "Cashn't",
     "description": "A feature-rich personal finance application that enables users to track expenses, manage budgets, and analyze spending patterns. The system integrates Google Gemini AI to parse natural language expense inputs, supports recurring transactions, and provides detailed visual analytics. Built with a secure authentication flow and scalable backend architecture, the project demonstrates applied AI usage in a practical, user-focused domain.",
     "images": ["/covers/projects/expense_preview/home.png"],
     "repoLink": "https://github.com/Yehonatal/project-expenses",

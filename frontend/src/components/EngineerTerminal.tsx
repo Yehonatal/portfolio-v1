@@ -92,10 +92,11 @@ I specialize in crafting high-performance, responsive web applications with clea
   'tech_capabilities.sh': `#!/bin/bash
 echo "Loading skill directory..."
 echo "--------------------------"
-echo "FRONTEND:   React.js | Next.js | TypeScript | TailwindCSS | Redux-Saga | shadcn/ui"
-echo "BACKEND:    Node.js/Express | Python/FastAPI | Odoo Modules | REST APIs | GraphQL | WebSockets"
-echo "DATABASES:  PostgreSQL | MongoDB | Supabase | Drizzle ORM | Vector DB (Qdrant)"
-echo "DEV_TOOLS:  Docker | Git/GitHub Actions | Webpack/Vite | Postman"
+echo "LANGUAGES:  Python | JavaScript | TypeScript | SQL"
+echo "FRONTEND:   React | Next.js | HTML | CSS | Tailwind CSS | Redux | Redux Toolkit | Redux-Saga"
+echo "BACKEND:    Node.js | Express.js | RESTful APIs | WebSockets | JWT Authentication"
+echo "DATABASES:  MongoDB | PostgreSQL | MySQL | Supabase | Drizzle ORM"
+echo "DEV_TOOLS:  Git | GitHub | Docker | Postman | CI/CD (GitHub Actions)"
 echo "--------------------------"
 echo "Status: ALL MODULES READY"`,
 

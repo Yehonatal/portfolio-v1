@@ -214,7 +214,7 @@ function ScrollProgress({ containerRef, activeId }) {
 
 export default function Process() {
   const containerRef = useRef(null)
-  const [activeId, setActiveId] = useState(null)
+  const [activeId, setActiveId] = useState("01")
   const sectionInView = useInView(containerRef, { once: true, margin: "-10% 0px" })
 
   // Header scroll animation

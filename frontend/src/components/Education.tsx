@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Award, Calendar, GraduationCap } from 'lucide-react'
+import AnimatedNumber from './AnimatedNumber'
 
 const Education = () => (
   <motion.div
@@ -38,7 +39,9 @@ const Education = () => (
           <Award className="w-3 h-3" />
           CGPA
         </div>
-        <div className="text-sm font-display font-bold">3.93</div>
+        <div className="text-sm font-display font-bold">
+          <AnimatedNumber value={3.93} decimals={2} />
+        </div>
       </div>
     </div>
 

@@ -8,6 +8,7 @@ import type { Project } from '@/types/types'
 import TechStack, { categories as techCategories } from '@/components/TechStack'
 import Education from '@/components/Education'
 import blogsData from '@/data/blogs.json'
+import AnimatedNumber from './AnimatedNumber'
 
 const toGeezNumeral = (num: number): string => {
   const geezUnits = ["", "፩", "፪", "፫", "፬", "፭", "፮", "፯", "፰", "፱"]
@@ -83,6 +84,8 @@ const getEthiopianDate = (date: Date) => {
 }
 
 type MobileAppProps = {
+  theme: 'light' | 'dark'
+  toggleTheme: () => void
   localTime: string
   categories: string[]
   selectedCategory: string
@@ -100,6 +103,8 @@ type MobileAppProps = {
 }
 
 export default function MobileApp({
+  theme,
+  toggleTheme,
   localTime,
   categories,
   selectedCategory,
@@ -116,23 +121,7 @@ export default function MobileApp({
   onInspectProject,
 }: MobileAppProps) {
   
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
   const [contactMessage, setContactMessage] = useState('')
-
-  useEffect(() => {
-    const isDark = document.documentElement.classList.contains('dark')
-    setTheme(isDark ? 'dark' : 'light')
-  }, [])
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
-    setTheme(newTheme)
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }
 
   const getMailtoLink = () => {
     return `mailto:yonatanafewerk@gmail.com?body=${encodeURIComponent(contactMessage)}`
@@ -192,10 +181,10 @@ export default function MobileApp({
                   
                   {/* Floating minimalist tags */}
                   <div className="absolute -left-4 top-6 z-20 bg-[var(--color-secondary)] px-2.5 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider text-[var(--color-foreground)]">
-                    3+ Yrs Exp
+                    <AnimatedNumber value={3} />+ Yrs Exp
                   </div>
                   <div className="absolute -right-4 bottom-6 z-20 bg-[var(--color-secondary)] px-2.5 py-0.5 rounded-full text-[8px] font-bold uppercase tracking-wider text-[var(--color-foreground)]">
-                    20+ Works
+                    <AnimatedNumber value={20} />+ Works
                   </div>
                 </div>
 

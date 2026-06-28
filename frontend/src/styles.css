@@ -2,6 +2,9 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+
 html {
   scroll-behavior: smooth;
 }
@@ -38,6 +41,17 @@ code {
   --accent: #3b82f6;
   --accent-foreground: #ffffff;
   --radius: 8px;
+
+  /* Visitor Mode Colors */
+  --paper: #F2EFE8;
+  --ink: #0F0E0D;
+  --ink-rgb: 15, 14, 13;
+  --ink-faded: rgba(15, 14, 13, 0.35);
+  --paper-dark: #1A1816;
+  --ink-light: #F2EFE8;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 /* 🌙 Dark Theme (Minimal Modern Dark) */
@@ -55,6 +69,14 @@ code {
   --muted-foreground: #a1a1aa;
   --accent: #60a5fa;
   --accent-foreground: #09090b;
+
+  /* Visitor Mode Colors */
+  --paper: #0F0E0D;
+  --ink: #F2EFE8;
+  --ink-rgb: 242, 239, 232;
+  --ink-faded: rgba(242, 239, 232, 0.35);
+  --paper-dark: #F2EFE8;
+  --ink-light: #0F0E0D;
 }
 
 /* Hide scrollbars globally */
@@ -161,4 +183,17 @@ code {
 /* Simple modern badge utility */
 .badge {
   @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border transition-colors;
+}
+
+/* Loader Grid Utility */
+.loader-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+}
+.dark .loader-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
 }

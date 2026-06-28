@@ -39,6 +39,7 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const [hydrated, setHydrated] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     setHydrated(true)
@@ -49,13 +50,32 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function() {
+            try {
+              var stored = localStorage.getItem('theme') || localStorage.getItem('visitor-theme');
+              var theme = 'dark';
+              if (stored === 'light' || stored === 'dark') {
+                theme = stored;
+              } else {
+                var mql = window.matchMedia('(prefers-color-scheme: dark)');
+                if (mql.matches === false) theme = 'light';
+              }
+              if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+              } else {
+                document.documentElement.classList.remove('dark');
+              }
+            } catch (e) {}
+          })();
+        ` }} />
       </head>
       <body suppressHydrationWarning>
 
-        {hydrated ? (
-          children
+        {(!hydrated || loading) ? (
+          <Loading onComplete={() => setLoading(false)} />
         ) : (
-          <Loading />
+          children
         )}
 
         <Scripts />
