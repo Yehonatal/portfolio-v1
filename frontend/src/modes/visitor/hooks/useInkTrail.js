@@ -11,8 +11,9 @@ export function useInkTrail(canvasRef) {
     let points = []
     let lastX = 0
     let lastY = 0
-    let isMoving = false
     let lastTime = Date.now()
+    let isLooping = false
+    const maxAge = 800 // trail duration in ms
 
     const resizeCanvas = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -26,23 +27,19 @@ export function useInkTrail(canvasRef) {
     resizeCanvas()
     window.addEventListener('resize', resizeCanvas)
 
-    const handleMouseMove = (e) => {
-      const x = e.clientX
-      const y = e.clientY
+    const draw = () => {
       const now = Date.now()
-      const dt = now - lastTime
-      lastTime = now
+      
+      // Filter out points older than maxAge
+      points = points.filter(p => now - p.time < maxAge)
 
-      if (!isMoving) {
-        lastX = x
-        lastY = y
-        isMoving = true
+      // Clear the canvas
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+
+      if (points.length < 2) {
+        isLooping = false
         return
       }
-
-      const dist = Math.hypot(x - lastX, y - lastY)
-      const speed = dt > 0 ? dist / dt : 0
-      const width = Math.max(1, Math.min(speed * 0.4, 12))
 
       // Determine ink color from CSS variable
       let inkColor = '15, 14, 13'
@@ -51,49 +48,59 @@ export function useInkTrail(canvasRef) {
         if (inkRgb) inkColor = inkRgb
       } catch(e) {}
 
-      ctx.beginPath()
-      ctx.moveTo(lastX, lastY)
-      ctx.lineTo(x, y)
-      ctx.strokeStyle = `rgba(${inkColor}, 0.12)`
-      ctx.lineWidth = width
-      ctx.lineCap = 'round'
-      ctx.lineJoin = 'round'
-      ctx.stroke()
+      // Draw the trail
+      for (let i = 1; i < points.length; i++) {
+        const p1 = points[i - 1]
+        const p2 = points[i]
+        const age = now - p2.time
+        const ratio = 1 - age / maxAge // fades from 1 (new) to 0 (old)
+        const opacity = ratio * 0.12
+
+        ctx.beginPath()
+        ctx.moveTo(p1.x, p1.y)
+        ctx.lineTo(p2.x, p2.y)
+        ctx.strokeStyle = `rgba(${inkColor}, ${opacity})`
+        ctx.lineWidth = p2.width * ratio
+        ctx.lineCap = 'round'
+        ctx.lineJoin = 'round'
+        ctx.stroke()
+      }
+
+      requestAnimationFrame(draw)
+    }
+
+    const handleMouseMove = (e) => {
+      const x = e.clientX
+      const y = e.clientY
+      const now = Date.now()
+      const dt = now - lastTime
+      lastTime = now
+
+      if (points.length === 0) {
+        lastX = x
+        lastY = y
+      }
+
+      const dist = Math.hypot(x - lastX, y - lastY)
+      const speed = dt > 0 ? dist / dt : 0
+      const width = Math.max(1, Math.min(speed * 0.4, 12))
+
+      points.push({ x, y, time: now, width })
 
       lastX = x
       lastY = y
+
+      if (!isLooping) {
+        isLooping = true
+        requestAnimationFrame(draw)
+      }
     }
 
     window.addEventListener('mousemove', handleMouseMove)
 
-    let animationId
-    const fade = () => {
-      // Dynamic fade color based on currently computed document background color
-      let r = 242, g = 239, b = 232
-      try {
-        const bgStyle = getComputedStyle(document.body).backgroundColor || getComputedStyle(document.documentElement).backgroundColor
-        const rgb = bgStyle.match(/\d+/g)
-        if (rgb && rgb.length >= 3) {
-          r = parseInt(rgb[0], 10)
-          g = parseInt(rgb[1], 10)
-          b = parseInt(rgb[2], 10)
-        }
-      } catch (err) {
-        // Fallback to default paper color
-      }
-
-      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.05)`
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-      animationId = requestAnimationFrame(fade)
-    }
-
-    fade()
-
     return () => {
       window.removeEventListener('resize', resizeCanvas)
       window.removeEventListener('mousemove', handleMouseMove)
-      cancelAnimationFrame(animationId)
     }
   }, [canvasRef])
 }

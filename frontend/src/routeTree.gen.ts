@@ -9,11 +9,29 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VisitorRouteImport } from './routes/visitor'
+import { Route as HrRouteImport } from './routes/hr'
+import { Route as EngineerRouteImport } from './routes/engineer'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects/index'
 import { Route as BlogsIndexRouteImport } from './routes/blogs/index'
 import { Route as ProjectsProjectsIdIndexRouteImport } from './routes/projects/$projectsId/index'
 
+const VisitorRoute = VisitorRouteImport.update({
+  id: '/visitor',
+  path: '/visitor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HrRoute = HrRouteImport.update({
+  id: '/hr',
+  path: '/hr',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EngineerRoute = EngineerRouteImport.update({
+  id: '/engineer',
+  path: '/engineer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +55,18 @@ const ProjectsProjectsIdIndexRoute = ProjectsProjectsIdIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/engineer': typeof EngineerRoute
+  '/hr': typeof HrRoute
+  '/visitor': typeof VisitorRoute
   '/blogs': typeof BlogsIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/projects/$projectsId': typeof ProjectsProjectsIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/engineer': typeof EngineerRoute
+  '/hr': typeof HrRoute
+  '/visitor': typeof VisitorRoute
   '/blogs': typeof BlogsIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/projects/$projectsId': typeof ProjectsProjectsIdIndexRoute
@@ -50,20 +74,48 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/engineer': typeof EngineerRoute
+  '/hr': typeof HrRoute
+  '/visitor': typeof VisitorRoute
   '/blogs/': typeof BlogsIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/projects/$projectsId/': typeof ProjectsProjectsIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/blogs' | '/projects' | '/projects/$projectsId'
+  fullPaths:
+    | '/'
+    | '/engineer'
+    | '/hr'
+    | '/visitor'
+    | '/blogs'
+    | '/projects'
+    | '/projects/$projectsId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/blogs' | '/projects' | '/projects/$projectsId'
-  id: '__root__' | '/' | '/blogs/' | '/projects/' | '/projects/$projectsId/'
+  to:
+    | '/'
+    | '/engineer'
+    | '/hr'
+    | '/visitor'
+    | '/blogs'
+    | '/projects'
+    | '/projects/$projectsId'
+  id:
+    | '__root__'
+    | '/'
+    | '/engineer'
+    | '/hr'
+    | '/visitor'
+    | '/blogs/'
+    | '/projects/'
+    | '/projects/$projectsId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EngineerRoute: typeof EngineerRoute
+  HrRoute: typeof HrRoute
+  VisitorRoute: typeof VisitorRoute
   BlogsIndexRoute: typeof BlogsIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   ProjectsProjectsIdIndexRoute: typeof ProjectsProjectsIdIndexRoute
@@ -71,6 +123,27 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/visitor': {
+      id: '/visitor'
+      path: '/visitor'
+      fullPath: '/visitor'
+      preLoaderRoute: typeof VisitorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hr': {
+      id: '/hr'
+      path: '/hr'
+      fullPath: '/hr'
+      preLoaderRoute: typeof HrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/engineer': {
+      id: '/engineer'
+      path: '/engineer'
+      fullPath: '/engineer'
+      preLoaderRoute: typeof EngineerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +177,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EngineerRoute: EngineerRoute,
+  HrRoute: HrRoute,
+  VisitorRoute: VisitorRoute,
   BlogsIndexRoute: BlogsIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
   ProjectsProjectsIdIndexRoute: ProjectsProjectsIdIndexRoute,

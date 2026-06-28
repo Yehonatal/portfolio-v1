@@ -35,8 +35,8 @@ export default function CustomCursor() {
           width: isHoveringClickable ? 56 : (isHoveringText ? 48 : 24),
           height: isHoveringClickable ? 56 : (isHoveringText ? 48 : 24),
           backgroundColor: isHoveringClickable 
-            ? 'rgba(255, 255, 255, 0.15)' 
-            : (isHoveringText ? 'rgba(255, 255, 255, 0.08)' : 'rgba(255, 255, 255, 0)'),
+            ? 'rgba(255, 255, 255, 1)' 
+            : (isHoveringText ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0)'),
           borderRadius: '9999px',
           borderWidth: isHoveringClickable ? '2px' : '1.5px',
         }}

@@ -86,7 +86,7 @@ function StepBlock({ step, idx, activeId, setActiveId }) {
           </motion.span>
           <motion.span
             animate={{ 
-              backgroundColor: isActive ? step.color : 'transparent',
+              backgroundColor: isActive ? step.color : 'rgba(0, 0, 0, 0)',
               color: isActive ? '#F2EFE8' : step.color,
             }}
             transition={{ duration: 0.3 }}
