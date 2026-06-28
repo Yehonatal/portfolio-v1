@@ -97,14 +97,14 @@ const Hero = ({
   }, [])
 
   return (
-    <section id="about" className="py-24 md:py-32 max-w-4xl mx-auto px-6 border-b border-[var(--color-border)]/15">
+    <section id="about" className="py-16 md:py-24 border-b border-[var(--color-border)]/15 w-full">
       <div className="flex flex-col-reverse md:flex-row items-center md:items-start justify-between gap-12 md:gap-16">
         
         {/* Bio Text */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="flex-1 space-y-8 text-center md:text-left"
         >
           <div className="space-y-3">
@@ -121,14 +121,14 @@ const Hero = ({
           </p>
 
           {/* Minimalist actions */}
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-2">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 pt-2">
             <motion.a
               href="https://drive.google.com/file/d/1lFQogpWl42L-UE5DvY_40laKmA_0sXlf/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--color-primary)] text-[var(--color-primary-foreground)] text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-none border border-[var(--color-foreground)] text-[var(--color-foreground)] bg-transparent text-xs font-bold uppercase tracking-wider hover:bg-[var(--color-foreground)] hover:text-[var(--color-background)] transition-colors duration-150"
             >
               <FileText className="w-4 h-4" />
               View Resume
@@ -137,9 +137,8 @@ const Hero = ({
             
             <motion.a
               href="mailto:yonatanafewerk@gmail.com"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--color-secondary)] text-[var(--color-foreground)] text-xs font-bold uppercase tracking-wider hover:bg-[var(--color-secondary)]/80 transition-colors"
+              whileHover={{ x: 3 }}
+              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[var(--color-foreground)] hover:text-[var(--color-primary)] transition-colors underline underline-offset-4 decoration-[var(--color-primary)]"
             >
               <Mail className="w-4 h-4" />
               Get In Touch
@@ -149,13 +148,13 @@ const Hero = ({
 
         {/* Headshot & Live Metadata Column */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           className="w-48 md:w-60 shrink-0 space-y-6 flex flex-col items-center md:items-stretch"
         >
           {/* Flat Headshot */}
-          <div className="w-44 h-44 md:w-52 md:h-52 rounded-full bg-[var(--color-secondary)]/50 overflow-hidden group relative">
+          <div className="w-44 h-44 md:w-52 md:h-52 rounded-none bg-[var(--color-secondary)]/50 overflow-hidden group relative border border-[var(--color-border)]">
             {/* Soft backdrop circle */}
             <div className="absolute inset-0 bg-[var(--color-primary)]/10 rounded-full flex items-center justify-center">
               <svg className="w-full h-full stroke-[var(--color-primary)]/20 fill-none opacity-20" viewBox="0 0 100 100">
@@ -167,7 +166,7 @@ const Hero = ({
             <img
               src="/me.jpg"
               alt="Yonatan Afewerk"
-              className="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover grayscale hover:grayscale-0 hover:scale-105 transition-all duration-700 ease-out absolute inset-0 m-auto z-10"
+              className="w-40 h-40 md:w-48 md:h-48 rounded-none object-cover grayscale hover:grayscale-0 hover:scale-105 transition-all duration-700 ease-out absolute inset-0 m-auto z-10"
             />
           </div>
 

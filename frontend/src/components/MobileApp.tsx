@@ -139,7 +139,7 @@ export default function MobileApp({
   }
 
   const getTelegramLink = () => {
-    return `https://t.me/Jehonatal?text=${encodeURIComponent(contactMessage)}`
+    return `https://t.me/yonatanafewerk?text=${encodeURIComponent(contactMessage)}`
   }
 
   return (
@@ -270,7 +270,7 @@ export default function MobileApp({
                   {[
                     { name: 'GitHub', desc: 'Code', url: 'https://github.com/Yehonatal', icon: <Github size={13} /> },
                     { name: 'LinkedIn', desc: 'Connect', url: 'https://www.linkedin.com/in/yonatan-afewerk/', icon: <Linkedin size={13} /> },
-                    { name: 'Telegram', desc: 'Chat', url: 'https://t.me/Jehonatal', icon: <Send size={13} /> },
+                    { name: 'Telegram', desc: 'Chat', url: 'https://t.me/yonatanafewerk', icon: <Send size={13} /> },
                     { name: 'Medium', desc: 'Articles', url: 'https://medium.com/@yonatanafewerk', icon: <BookOpen size={13} /> },
                   ].map((item) => (
                     <a
@@ -405,7 +405,7 @@ export default function MobileApp({
               <div className="space-y-6 pt-2">
                 {techCategories.map((cat) => {
                   const filteredTech = cat.tech.filter(t => 
-                    t.toLowerCase().includes(searchQuery.toLowerCase())
+                    t.name.toLowerCase().includes(searchQuery.toLowerCase())
                   )
                   if (searchQuery && filteredTech.length === 0) return null
 
@@ -418,10 +418,10 @@ export default function MobileApp({
                       <div className="flex flex-wrap gap-1.5">
                         {filteredTech.map((tech) => (
                           <span 
-                            key={tech} 
+                            key={tech.name} 
                             className="text-[9px] font-mono font-semibold uppercase tracking-[0.05em] px-2.5 py-1 rounded-md bg-[var(--color-secondary)] text-[var(--color-muted-foreground)]"
                           >
-                            {tech}
+                            {tech.name}
                           </span>
                         ))}
                       </div>
@@ -562,7 +562,7 @@ export default function MobileApp({
                 {[
                   { name: 'LinkedIn', url: 'https://www.linkedin.com/in/yonatan-afewerk/', icon: <Linkedin size={13} /> },
                   { name: 'GitHub', url: 'https://github.com/Yehonatal', icon: <Github size={13} /> },
-                  { name: 'Telegram', url: 'https://t.me/Jehonatal', icon: <Send size={13} /> },
+                  { name: 'Telegram', url: 'https://t.me/yonatanafewerk', icon: <Send size={13} /> },
                   { name: 'Medium', url: 'https://medium.com/@yonatanafewerk', icon: <BookOpen size={13} /> },
                 ].map((item) => (
                   <a

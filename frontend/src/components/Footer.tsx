@@ -1,6 +1,6 @@
 const FooterSection = () => {
   return (
-    <footer className="hidden md:flex max-w-4xl mx-auto px-6 py-12 border-t border-[var(--color-border)]/15 flex-col sm:flex-row justify-between items-center gap-4 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-muted-foreground)]">
+    <footer className="hidden md:flex w-full py-12 border-t border-[var(--color-border)]/15 flex-col sm:flex-row justify-between items-center gap-4 text-[10px] font-semibold uppercase tracking-widest text-[var(--color-muted-foreground)]">
       <div>
         © {new Date().getFullYear()} Yonatan Afewerk
       </div>

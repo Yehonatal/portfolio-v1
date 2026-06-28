@@ -53,11 +53,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body suppressHydrationWarning>
 
         {hydrated ? (
-          <>
-            <Navbar />
-            {children}
-            <Footer />
-          </>
+          children
         ) : (
           <Loading />
         )}
